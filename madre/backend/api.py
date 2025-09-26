@@ -26,7 +26,7 @@ app.mount("/public", StaticFiles(directory="public"), name="public")
 
 @app.get("/", response_class=HTMLResponse)
 def read_root(request: Request):
-    with open("public/index.html") as f:
+    with open("front/index.html") as f:
         return HTMLResponse(f.read())
 class Grupo(BaseModel):
     id: int
