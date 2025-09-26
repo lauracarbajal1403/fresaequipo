@@ -1,0 +1,52 @@
+@import "./app.css";
+
+._custom-main-container{
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+._custom-main-rows-container{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+._custom-main-cards-container{
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+._custom-main-card-button{
+    border: none;
+    transition: .1s;
+}
+
+._custom-main-card-button:active{
+    transform: scale(0.90);
+}
+
+._custom-main-card-container{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--amarillo);
+    padding: 1rem;
+    border-radius: 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 2px 2px 8px var(--negro-transparencia);
+}
+
+._custom-main-card-container img{
+    width: 200px;
+}
+
+._custom-main-card-container h3{
+    color: var(--rosa);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box  ;
+}

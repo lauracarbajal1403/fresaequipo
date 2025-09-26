@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Tagesschrift&display=swap");
+
+/*!Colores*/
+:root{
+  --rosa: #FE8D85;
+  --rosa-transparencia: #ffbbb6;
+  --blanco: #fff;
+  --amarillo: #FFFAC2;
+  --amarillo-oscuro:#d8d4a4;
+  --negro: #222;
+  --negro-transparencia: #22222234;
+}
+
+html {
+  font-size: 16px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 1rem;
+  color: var(--rosa);
+  font-family: "Tagesschrift", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
