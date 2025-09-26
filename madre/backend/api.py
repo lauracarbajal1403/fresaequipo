@@ -6,6 +6,7 @@ from dbprofesores import dbprofesores
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+import os
 app = FastAPI()
 db_grupos = dbgrupos()
 db_alumnos = dbalumnos()
@@ -21,7 +22,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.mount("/front", StaticFiles(directory="front"), name="front")
+current_dir = os.path.dirname(os.path.abspath(__file__))
+front_dir = os.path.join(current_dir, "..", "front")
+app.mount("/front", StaticFiles(directory=front_dir), name="front")
 
 
 @app.get("/", response_class=HTMLResponse)
