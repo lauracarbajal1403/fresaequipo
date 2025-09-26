@@ -1,9 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from dbgrupos import dbgrupos
 from dbalumnos import dbalumnos 
 from dbprofesores import dbprofesores
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 app = FastAPI()
 db_grupos = dbgrupos()
 db_alumnos = dbalumnos()
@@ -19,6 +21,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.mount("/public", StaticFiles(directory="public"), name="public")
+
+
+@app.get("/", response_class=HTMLResponse)
+def read_root(request: Request):
+    with open("public/index.html") as f:
+        return HTMLResponse(f.read())
 class Grupo(BaseModel):
     id: int
     grupo: str
