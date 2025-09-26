@@ -21,7 +21,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.mount("/public", StaticFiles(directory="public"), name="public")
+app.mount("/front", StaticFiles(directory="front"), name="front")
 
 
 @app.get("/", response_class=HTMLResponse)
