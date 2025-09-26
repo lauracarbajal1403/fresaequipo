@@ -9,7 +9,7 @@ db_grupos = dbgrupos()
 db_alumnos = dbalumnos()
 db_profesores = dbprofesores()
 origins =[
-    "https://fresaequipo.onrender.com",
+    "https://fresaequipo-1.onrender.com",
     "http://localhost:3000"
 ]
 app.add_middleware(

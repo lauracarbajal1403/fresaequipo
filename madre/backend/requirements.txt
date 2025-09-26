@@ -1,0 +1,4 @@
+# Librerías esenciales de FastAPI
+fastapi
+uvicorn[standard]
+pydantic
