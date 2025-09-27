@@ -26,23 +26,27 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 front_dir = os.path.join(current_dir, "..", "front")
 app.mount("/front", StaticFiles(directory=front_dir), name="front")
 
-home_file = os.path.join(current_dir, "..", "front", "home.html")
 @app.get("/", response_class=HTMLResponse)
 def read_root(request: Request):
     index_path = os.path.join(front_dir, "index.html")  
     with open(index_path, encoding="utf-8") as f:
         return HTMLResponse(f.read())
-part1 = os.path.join(current_dir, "parte1.html")
-part2 = os.path.join(current_dir, "parte2.html")
+
+
 @app.get("/home", response_class=HTMLResponse)
 def read_home():
-    with open(os.path.join(home_file, "home.html"), "r", encoding="utf-8") as f:
+    home_file = os.path.join(current_dir, "..", "front", "home.html")
+    with open(home_file, "r", encoding="utf-8") as f:
         return HTMLResponse(f.read())
+@app.get("/parte1", response_class=HTMLResponse)
 def read_part1():
-    with open(os.path.join(part1, "parte1.html"), "r", encoding="utf-8") as f:
+    part1 = os.path.join(current_dir, "parte1.html")
+    with open(part1, "r", encoding="utf-8") as f:
         return HTMLResponse(f.read())
+@app.get("/parte2", response_class=HTMLResponse)
 def read_part2():
-    with open(os.path.join(part2, "parte2.html"), "r", encoding="utf-8") as f:
+    part2 = os.path.join(current_dir, "parte2.html")
+    with open(part2, "r", encoding="utf-8") as f:
         return HTMLResponse(f.read())
 
 class Grupo(BaseModel):
