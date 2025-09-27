@@ -36,18 +36,16 @@ def read_root(request: Request):
 @app.get("/home", response_class=HTMLResponse)
 def read_home():
     home_file = os.path.join(current_dir, "..", "front", "home.html")
-    with open(home_file, "r", encoding="utf-8") as f:
-        return HTMLResponse(f.read())
-@app.get("/parte1", response_class=HTMLResponse)
-def read_part1():
+    with open(home_file, "r", encoding="utf-8") as f1:
+        home = f1.read()
     part1 = os.path.join(current_dir, "..", "front",  "parte1.html")
-    with open(part1, "r", encoding="utf-8") as f:
-        return HTMLResponse(f.read())
-@app.get("/parte2", response_class=HTMLResponse)
-def read_part2():
     part2 = os.path.join(current_dir,  "..", "front", "parte2.html")
-    with open(part2, "r", encoding="utf-8") as f:
-        return HTMLResponse(f.read())
+    with open(part1, "r", encoding="utf-8") as f2:
+        part1 = f2.read()
+    with open(part2, "r", encoding="utf-8") as f3:
+        part2 = f3.read()
+    full_html = part1 + home_file + part2
+    return HTMLResponse(full_html)
 
 class Grupo(BaseModel):
     id: int
