@@ -1,83 +1,87 @@
-<?php
-include('../layout/parte1.php');
-$src_gato_truco = "https://i.ytimg.com/vi/etxjQPVtE5s/hqdefault.jpg?sqp=-oaymwEmCOADEOgC8quKqQMa8AEB-AHKA4AC6AKKAgwIABABGGIgRihyMA8=&rs=AOn4CLBFKL_LxLCXg5JvjKNbn0ay114F4w";
-?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio</title>
+  <!-- Aquí enlazas tus estilos -->
+  <link rel="stylesheet" href="/front/css/index.css">
+  <link rel="stylesheet" href="/front/css/app.css">
+</head>
+<body>
 
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <!-- Content Header -->
     <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">Inicio</h1>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Inicio</h1>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- /.content-header -->
 
     <!-- Main content -->
-
-    <!-- Contenedor principal -->
     <div class="_custom-main-container">
-        <!-- Contendor de filas -->
-        <div class="_custom-main-rows-container">
-            <!-- Contenedor de cartas -->
-            <div class="_custom-main-cards-container">
-                <!-- Carta -->
-                <button class="_custom-main-card-button">
-                    <div class="_custom-main-card-container">
-                        <img src=<?= $src_gato_truco; ?> alt="">
-                        <h3>Alumnos</h3>
-                    </div>
-                </button>
-                <!-- Carta -->
-                <button class="_custom-main-card-button">
-                    <div class="_custom-main-card-container">
-                        <img src=<?= $src_gato_truco; ?> alt="">
-                        <h3>Personal</h3>
-                    </div>
-                </button>
-                <!-- Carta -->
-                <button class="_custom-main-card-button">
-                    <div class="_custom-main-card-container">
-                        <img src=<?= $src_gato_truco; ?> alt="">
-                        <h3>Grupos</h3>
-                    </div>
-                </button>
+      <!-- Contendor de filas -->
+      <div class="_custom-main-rows-container">
+        
+        <!-- Primera fila de cartas -->
+        <div class="_custom-main-cards-container">
+          <button class="_custom-main-card-button">
+            <div class="_custom-main-card-container">
+              <img src="https://i.ytimg.com/vi/etxjQPVtE5s/hqdefault.jpg" alt="Alumnos">
+              <h3>Alumnos</h3>
             </div>
-            <!-- Contenedor de cartas -->
-            <div class="_custom-main-cards-container">
-                <!-- Carta -->
-                <button class="_custom-main-card-button">
-                    <div class="_custom-main-card-container">
-                        <img src=<?= $src_gato_truco; ?> alt="">
-                        <h3>Módulos</h3>
-                    </div>
-                </button>
-                <!-- Carta -->
-                <button class="_custom-main-card-button">
-                    <div class="_custom-main-card-container">
-                        <img src=<?= $src_gato_truco; ?> alt="">
-                        <h3>Inventario</h3>
-                    </div>
-                </button>
-                <!-- Carta -->
-                <button class="_custom-main-card-button">
-                    <div class="_custom-main-card-container">
-                        <img src=<?= $src_gato_truco; ?> alt="">
-                        <h3>Administración</h3>
-                    </div>
-                </button>
+          </button>
+
+          <button class="_custom-main-card-button">
+            <div class="_custom-main-card-container">
+              <img src="https://i.ytimg.com/vi/etxjQPVtE5s/hqdefault.jpg" alt="Personal">
+              <h3>Personal</h3>
             </div>
+          </button>
+
+          <button class="_custom-main-card-button">
+            <div class="_custom-main-card-container">
+              <img src="https://i.ytimg.com/vi/etxjQPVtE5s/hqdefault.jpg" alt="Grupos">
+              <h3>Grupos</h3>
+            </div>
+          </button>
         </div>
+
+        <!-- Segunda fila de cartas -->
+        <div class="_custom-main-cards-container">
+          <button class="_custom-main-card-button">
+            <div class="_custom-main-card-container">
+              <img src="https://i.ytimg.com/vi/etxjQPVtE5s/hqdefault.jpg" alt="Módulos">
+              <h3>Módulos</h3>
+            </div>
+          </button>
+
+          <button class="_custom-main-card-button">
+            <div class="_custom-main-card-container">
+              <img src="https://i.ytimg.com/vi/etxjQPVtE5s/hqdefault.jpg" alt="Inventario">
+              <h3>Inventario</h3>
+            </div>
+          </button>
+
+          <button class="_custom-main-card-button">
+            <div class="_custom-main-card-container">
+              <img src="https://i.ytimg.com/vi/etxjQPVtE5s/hqdefault.jpg" alt="Administración">
+              <h3>Administración</h3>
+            </div>
+          </button>
+        </div>
+      </div>
     </div>
-
     <!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
 
-<?php
-include('../layout/parte2.php');
-?>
+  </div>
+  <!-- /.content-wrapper -->
+
+</body>
+</html>
