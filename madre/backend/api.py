@@ -44,7 +44,7 @@ def read_home():
         part1 = f2.read()
     with open(part2, "r", encoding="utf-8") as f3:
         part2 = f3.read()
-    full_html = part1 + home_file + part2
+    full_html = part1 + home + part2
     return HTMLResponse(full_html)
 
 class Grupo(BaseModel):
