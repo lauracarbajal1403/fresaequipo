@@ -32,6 +32,11 @@ def read_root(request: Request):
     index_path = os.path.join(front_dir, "index.html")  
     with open(index_path, encoding="utf-8") as f:
         return HTMLResponse(f.read())
+    
+@app.get("/home", response_class=HTMLResponse)
+def read_home():
+    with open(os.path.join(front_dir, "home.html"), "r", encoding="utf-8") as f:
+        return HTMLResponse(f.read())
 
 class Grupo(BaseModel):
     id: int
