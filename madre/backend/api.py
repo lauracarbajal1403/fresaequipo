@@ -29,12 +29,14 @@ app.mount("/front", StaticFiles(directory=front_dir), name="front")
 
 @app.get("/", response_class=HTMLResponse)
 def read_root(request: Request):
-    with open("front/index.html") as f:
+    index_path = os.path.join(front_dir, "index.html")  
+    with open(index_path, encoding="utf-8") as f:
         return HTMLResponse(f.read())
+
 class Grupo(BaseModel):
     id: int
     grupo: str
-    
+
 class Alumno(BaseModel):
     codigo: int
     nombre: str
