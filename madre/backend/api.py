@@ -13,7 +13,7 @@ db_alumnos = dbalumnos()
 db_profesores = dbprofesores()
 origins =[
     "https://fresaequipo-1.onrender.com",
-    "http://localhost:3000"
+    "http://localhost:8000"
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -40,12 +40,12 @@ def read_home():
         return HTMLResponse(f.read())
 @app.get("/parte1", response_class=HTMLResponse)
 def read_part1():
-    part1 = os.path.join(current_dir, "parte1.html")
+    part1 = os.path.join(current_dir, "..", "front",  "parte1.html")
     with open(part1, "r", encoding="utf-8") as f:
         return HTMLResponse(f.read())
 @app.get("/parte2", response_class=HTMLResponse)
 def read_part2():
-    part2 = os.path.join(current_dir, "parte2.html")
+    part2 = os.path.join(current_dir,  "..", "front", "parte2.html")
     with open(part2, "r", encoding="utf-8") as f:
         return HTMLResponse(f.read())
 
