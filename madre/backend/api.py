@@ -32,8 +32,8 @@ def read_root(request: Request):
     index_path = os.path.join(front_dir, "index.html")  
     with open(index_path, encoding="utf-8") as f:
         return HTMLResponse(f.read())
-part1 = os.path.join(front_dir, "parte1.html")
-part2 = os.path.join(front_dir, "parte2.html")
+part1 = os.path.join(current_dir, "parte1.html")
+part2 = os.path.join(current_dir, "parte2.html")
 @app.get("/home", response_class=HTMLResponse)
 def read_home():
     with open(os.path.join(home_file, "home.html"), "r", encoding="utf-8") as f:
