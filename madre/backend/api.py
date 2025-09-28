@@ -64,7 +64,7 @@ def read_profesores():
 
 
 @app.get("/crudprofe", response_class=HTMLResponse)
-def read_profesores():
+def read_crudprofe():
     home_file = os.path.join(current_dir, "..", "front", "crudprofe.html")
     with open(home_file, "r", encoding="utf-8") as f1:
         home1 = f1.read()
