@@ -1,4 +1,4 @@
-import mysql.connector
+import psycopg2
 import conexion as con 
 class dbalumnos:
     def nuevo_alumno(self, alumno):        
@@ -16,7 +16,7 @@ class dbalumnos:
             )
             self.cursor.execute(self.sql, self.datos)
             self.conn.commit()
-        except mysql.connector.Error as e:
+        except psycopg2.Error as e:
             print(f"Error al guardar alumno: {e}")
         finally:
             self.conn.close()

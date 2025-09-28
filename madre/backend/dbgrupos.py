@@ -1,21 +1,24 @@
 import conexion as con
-import mysql.connector
+import psycopg2
+
 class dbgrupos:
     def nuevo_grupo(self, grupo):        
+        conn = None
         try:
             self.con = con.conexion()
-            self.conn = self.con.open()
-            self.cursor = self.conn.cursor()
-            self.sql = "INSERT INTO grupos(id, grupo) VALUES ( %s, %s)"
-            self.datos = (
-                grupo.id,
-                grupo.grupo)
-            self.cursor.execute(self.sql, self.datos)
-            self.conn.commit()
-        except mysql.connector.Error as e:
+            conn = self.con.open()
+            if conn is None:
+                return
+            cursor = conn.cursor()
+            sql = "INSERT INTO grupos (id, grupo, horario) VALUES (%s, %s, %s)"
+            datos = (grupo.id, grupo.grupo)
+            cursor.execute(sql, datos)
+            conn.commit()
+        except psycopg2.Error as e:
             print(f"Error al guardar grupo: {e}")
         finally:
-            self.conn.close()
+            if conn:
+                conn.close()
 
     """
     def buscar_grupo(self, grupo):
