@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CRUD Profesores</title>
+  <link rel="stylesheet" href="/front/public/css/index.css">
+  <link rel="stylesheet" href="/front/public/css/app.css">
+</head>
+<body>
+  <object type="text/html" data="/parte1" width="device-width" height="1"></object>
+
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Gestión de Profesores</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="_custom-main-container">
+      <div class="_custom-main-rows-container">
+        
+        <div class="_custom-main-cards-container">
+          <button class="_custom-main-card-button">
+            <div class="_custom-main-card-container">
+              <img src="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" alt="Agregar">
+              <h3>Agregar Profesor</h3>
+            </div>
+          </button>
+
+          <button class="_custom-main-card-button">
+            <div class="_custom-main-card-container">
+              <img src="https://cdn-icons-png.flaticon.com/512/709/709724.png" alt="Listar">
+              <h3>Ver Profesores</h3>
+            </div>
+          </button>
+
+          <button class="_custom-main-card-button">
+            <div class="_custom-main-card-container">
+              <img src="https://cdn-icons-png.flaticon.com/512/1828/1828911.png" alt="Editar">
+              <h3>Editar Profesor</h3>
+            </div>
+          </button>
+
+          <button class="_custom-main-card-button">
+            <div class="_custom-main-card-container">
+              <img src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="Eliminar">
+              <h3>Eliminar Profesor</h3>
+            </div>
+          </button>
+        </div>
+
+        <!-- Tabla de ejemplo -->
+        <div class="_custom-main-table-container" style="margin-top: 30px;">
+          <h2>Listado de Profesores</h2>
+          <table border="1" cellpadding="10" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Materia</th>
+                <th>Horario</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Ana López</td>
+                <td>Matemáticas</td>
+                <td>Lunes 10:00 - 12:00</td>
+                <td>
+                  <button>Editar</button>
+                  <button>Eliminar</button>
+                </td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Carlos Pérez</td>
+                <td>Historia</td>
+                <td>Martes 14:00 - 16:00</td>
+                <td>
+                  <button>Editar</button>
+                  <button>Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <object type="text/html" data="/parte2" width="device-width" height="1"></object>
+</body>
+</html>
