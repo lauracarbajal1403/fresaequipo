@@ -1,5 +1,5 @@
-# Librerías esenciales de FastAPI
 fastapi
 uvicorn[standard]
 pydantic
 mysql-connector-python
+psycopg2-binary
