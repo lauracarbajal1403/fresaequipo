@@ -1,0 +1,5 @@
+CREATE TABLE grupos (
+    id SERIAL PRIMARY KEY,
+    grupo VARCHAR(100) NOT NULL,
+    horario VARCHAR(100) NOT NULL,
+);
