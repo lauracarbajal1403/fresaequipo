@@ -62,6 +62,21 @@ def read_profesores():
     full_html = part1 + home1 + part2
     return HTMLResponse(full_html)
 
+
+@app.get("/crudprofe", response_class=HTMLResponse)
+def read_profesores():
+    home_file = os.path.join(current_dir, "..", "front", "crudprofe.html")
+    with open(home_file, "r", encoding="utf-8") as f1:
+        home1 = f1.read()
+    part1 = os.path.join(current_dir, "..", "front",  "parte1.html")
+    part2 = os.path.join(current_dir,  "..", "front", "parte2.html")
+    with open(part1, "r", encoding="utf-8") as f2:
+        part1 = f2.read()
+    with open(part2, "r", encoding="utf-8") as f3:
+        part2 = f3.read()
+    full_html = part1 + home1 + part2
+    return HTMLResponse(full_html)
+
 class Grupo(BaseModel):
     id: int
     grupo: str

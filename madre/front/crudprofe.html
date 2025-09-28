@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agregar Profesor</title>
+  <link rel="stylesheet" href="/front/public/css/index.css">
+  <link rel="stylesheet" href="/front/public/css/app.css">
+</head>
+<body>
+  <object type="text/html" data="/parte1" width="device-width" height="1"></object>
+
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Agregar Profesor</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="_custom-main-container">
+      <div class="_custom-main-rows-container">
+        
+        <div class="_custom-main-cards-container" style="justify-content: center;">
+          <div class="_custom-main-card-container" style="padding: 20px; width: 100%; max-width: 500px;">
+            <h2 style="text-align: center; margin-bottom: 20px;">Formulario</h2>
+            <form action="/nuevo_profesor" method="POST">
+              
+              <div class="form-group" style="margin-bottom: 15px;">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 15px;">
+                <label for="materia">Materia:</label>
+                <input type="text" id="materia" name="materia" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 15px;">
+                <label for="horario">Horario:</label>
+                <input type="text" id="horario" name="horario" placeholder="Ej: Lunes 10:00 - 12:00" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 15px;">
+                <label for="contrasenia">Contraseña:</label>
+                <input type="password" id="contrasenia" name="contrasenia" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 15px;">
+                <label for="id">ID:</label>
+                <input type="password" id="contrasenia" name="contrasenia" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+              </div>
+
+              <div style="text-align: center; margin-top: 20px;">
+                <button type="submit" class="_custom-main-card-button" style="padding: 10px 20px; border-radius: 8px;">
+                  Guardar
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <object type="text/html" data="/parte2" width="device-width" height="1"></object>
+</body>
+</html>
