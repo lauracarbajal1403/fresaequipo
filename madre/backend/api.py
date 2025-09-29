@@ -107,7 +107,7 @@ def agregar_alumno(alumno: Alumno):
     db_alumnos.nuevo_alumno(alumno)
     return {"mensaje": "Alumno agregado correctamente"}
 
-@app.post("/nuevo_profesor")
+@app.api_route("/nuevo_profesor", methods=["POST", "GET"])
 def agregar_profesor(
     nombre: str = Form(...),
     contrasenia: str = Form(...),
