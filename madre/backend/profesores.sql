@@ -6,3 +6,4 @@ CREATE TABLE profesores (
     contrasenia VARCHAR(12) NOT NULL,
     contacto VARCHAR(12) NOT NULL
 );
+ALTER SEQUENCE profesores_id_seq RESTART WITH 25640;

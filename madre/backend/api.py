@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Form, Request
 from pydantic import BaseModel
 from dbgrupos import dbgrupos
 from dbalumnos import dbalumnos 
@@ -108,7 +108,20 @@ def agregar_alumno(alumno: Alumno):
     return {"mensaje": "Alumno agregado correctamente"}
 
 @app.post("/nuevo_profesor")
-def agregar_profesor(profe: Profesor):
+def agregar_profesor(
+    nombre: str = Form(...),
+    contrasenia: str = Form(...),
+    contacto: str = Form(...),
+    perfil: str = Form(...),
+    horario: str = Form(...)
+    ):
+    profe = Profesor(
+        nombre=nombre,
+        contrasenia=contrasenia,
+        contacto=contacto,
+        perfil=perfil,
+        horario=horario
+    )
     db_profesores.nuevo_profesor(profe)
     return {"mensaje": "Profesor agregado correctamente"}
 @app.put("/verificar_profesor")

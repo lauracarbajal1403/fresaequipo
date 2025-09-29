@@ -7,7 +7,7 @@ class dbprofesores:
             self.con = con.conexion()
             self.conn = self.con.open()
             self.cursor = self.conn.cursor()
-            self.sql = "INSERT INTO profesores (idempleado, nombre, password, contacto, perfil, horario) VALUES ( %s, %s, %s, %s, %s, %s)"
+            self.sql = "INSERT INTO profesores (nombre, contrasenia, contacto, perfil, horario) VALUES ( %s, %s, %s, %s, %s)"
             self.datos = (
                 profe.id,
                 profe.nombre, 
