@@ -203,7 +203,7 @@ def obtener_gruposver():
         con = conexion()
         conn = con.open()
         cursor = conn.cursor()
-        cursor.execute("SELECT id, nombre, perfil, horario, contacto FROM grupos ORDER BY id;")
+        cursor.execute("SELECT id, horario, contacto FROM grupos ORDER BY id;")
         filas = cursor.fetchall()
         grupos = []
         for fila in filas:
