@@ -49,21 +49,6 @@
     const API_URL = "https://fresaequipo-1.onrender.com";
     const form = document.getElementById('loginForm');
     const messageElement = document.getElementById('message');
-
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault(); // evita recarga de página
-
-        const username = form.username.value;
-        const password = form.password.value;
-
-        messageElement.textContent = 'Verificando credenciales...';
-        messageElement.style.color = 'black';
-
-        const loginData = {
-            id: username,
-            contrasenia: password
-        };
-
         try {
             const response = await fetch(`${API_URL}/login_profesor`, {
                 method: 'POST',
@@ -95,7 +80,6 @@
             messageElement.textContent = 'No se pudo conectar con el servidor de la API.';
             messageElement.style.color = 'red';
         }
-    });
 </script>
 
 </body>
