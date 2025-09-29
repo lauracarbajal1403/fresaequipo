@@ -47,7 +47,7 @@ const messageElement = document.getElementById('message');
 form.addEventListener('submit', async (event) => {
     event.preventDefault(); // evitar recarga
 
-    const username = form.username.value;
+    const username = parseInt(form.username.value);
     const password = form.password.value;
 
     const loginData = {
