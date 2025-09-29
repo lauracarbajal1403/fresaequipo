@@ -20,6 +20,7 @@
         </div>
       </div>
     </div>
+
     <div class="_custom-main-container">
       <div class="_custom-main-rows-container">
         
@@ -34,8 +35,12 @@
               </div>
 
               <div class="form-group" style="margin-bottom: 15px;">
-                <label for="materia">Materia:</label>
-                <input type="text" id="materia" name="materia" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                <label for="perfil">Perfil:</label>
+                <select id="perfil" name="perfil" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                  <option value="">Selecciona un perfil</option>
+                  <option value="Administrador">Administrador</option>
+                  <option value="Colaborador">Colaborador</option>
+                </select>
               </div>
 
               <div class="form-group" style="margin-bottom: 15px;">
@@ -45,12 +50,12 @@
 
               <div class="form-group" style="margin-bottom: 15px;">
                 <label for="contrasenia">Contraseña:</label>
-                <input type="password" id="contrasenia" name="contrasenia" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                <input type="password" id="contrasenia" name="contrasenia" maxlength="12" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
               </div>
 
               <div class="form-group" style="margin-bottom: 15px;">
-                <label for="id">ID:</label>
-                <input type="password" id="contrasenia" name="contrasenia" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                <label for="contacto">Contacto:</label>
+                <input type="text" id="contacto" name="contacto" maxlength="12" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;" placeholder="Teléfono o WhatsApp">
               </div>
 
               <div style="text-align: center; margin-top: 20px;">
