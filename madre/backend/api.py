@@ -185,3 +185,13 @@ def obtener_profesores():
     finally:
         cursor.close()
         conn.close()
+@app.get("/horarios")
+def get_horarios():
+    con = conexion()
+    conn = con.open()
+    cursor = conn.cursor()
+    cursor.execute("SELECT horario FROM grupos")
+    horarios = [row[0] for row in cursor.fetchall()]
+    cursor.close()
+    conn.close()
+    return {"horarios": horarios}
