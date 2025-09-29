@@ -88,13 +88,6 @@ class Alumno(BaseModel):
     horario: str
     codpro: int
     nomina: int
-class Profesor(BaseModel):
-    id: int
-    nombre: str
-    horario: str
-    contrasenia: str
-    contacto: str
-    perfil: str
 
 
 @app.post("/nuevo_grupo")
@@ -120,7 +113,7 @@ def agregar_profesor(
         contrasenia=contrasenia,
         contacto=contacto,
         perfil=perfil,
-        horario=horario
+        horario=horario,
     )
     db_profesores.nuevo_profesor(profe)
     return {"mensaje": "Profesor agregado correctamente"}
