@@ -107,7 +107,6 @@ def read_crudprofe():
     return HTMLResponse(full_html)
 
 class Grupo(BaseModel):
-    id: int
     horario: str
 
 class Alumno(BaseModel):
