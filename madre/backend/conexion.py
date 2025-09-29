@@ -8,11 +8,13 @@ class conexion:
         self.host = "dpg-d3c6aab7mgec73a8p0dg-a"
         self.port = "5432"
     def open(self):
-        self.conn = psycopg2.connect(host =self.host,
-                                      user = self.user,
-                                      password = self.password,
-                                      database = self.database,
-                                      port = self.port)
+        self.conn = psycopg2.connect(
+            host=self.host,
+            user=self.user,
+            password=self.password,
+            database=self.database,
+            port=self.port
+        )
         return self.conn
     def close(self):
         self.conn.close()
