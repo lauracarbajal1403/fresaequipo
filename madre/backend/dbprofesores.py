@@ -98,7 +98,7 @@ class dbprofesores:
             self.conn.close()
             if row is not None:
                 print("quiza")
-                if profe.contrasenia==row[2]:
+                if profe.contrasenia==row[4]:
                     print("hola")
                     return {
                         "id": int(row[0]),
