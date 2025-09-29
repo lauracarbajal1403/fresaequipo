@@ -89,7 +89,12 @@ class Alumno(BaseModel):
     codpro: int
     nomina: int
 
-
+class Profesor(BaseModel):
+    perfil: str
+    nombre: str
+    horario: str
+    contrasenia: int
+    contacto: int
 @app.post("/nuevo_grupo")
 def agregar_grupo(grupo: Grupo):
     db_grupos.nuevo_grupo(grupo)
