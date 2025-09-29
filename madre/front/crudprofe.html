@@ -68,41 +68,41 @@
                     Guardar
                 </button>
               </div>
-    <!-- 
     <script>
       const API_URL = "https://fresaequipo-1.onrender.com";
-      try {         
-        const response = await fetch(`${API_URL}/verificar_profesor`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(loginData)
-        });
 
-        const data = await response.json();
+      async function agregarProfesor(loginData) {
+          const messageElement = document.getElementById('message'); 
+          try {
+              const response = await fetch(`${API_URL}/nuevo_profesor`, {
+                  method: 'POST', 
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(loginData)
+              });
 
-                if (response.ok) {
-                    if (data.mensaje === "Profesor autenticado correctamente") {
-                        messageElement.textContent = `¡Bienvenido/a, ${data.profesor.nombre}!`;
-                        messageElement.style.color = 'green';
+              const data = await response.json();
 
-                    } else {
-                       
-                        messageElement.textContent = data.mensaje || "Credenciales incorrectas. Inténtalo de nuevo.";
-                        messageElement.style.color = 'red';
-                    }
-                } else { 
-                   
-                    messageElement.textContent = `Error en el servidor (${response.status}): ${data.detail || response.statusText}`;
-                    messageElement.style.color = 'red';
-                }
-            } catch (error) {
-                console.error('Error de conexión:', error);
-                messageElement.textContent = 'No se pudo conectar con el servidor de la API.';
-                messageElement.style.color = 'red';
-            }
-    -->
+              if (response.ok) {
+                  if (data.mensaje === "Profesor agregado correctamente") {
+                      messageElement.textContent = "¡Profesor agregado correctamente!";
+                      messageElement.style.color = 'green';
+                  } else {
+                      messageElement.textContent = data.mensaje || "Error desconocido.";
+                      messageElement.style.color = 'red';
+                  }
+              } else {
+                  messageElement.textContent = `Error en el servidor (${response.status}): ${data.detail || response.statusText}`;
+                  messageElement.style.color = 'red';
+              }
+          } catch (error) {
+              console.error('Error de conexión:', error);
+              messageElement.textContent = 'No se pudo conectar con el servidor de la API.';
+              messageElement.style.color = 'red';
+          }
+      }
+        </script>
             </form>
           </div>
         </div>
