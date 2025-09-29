@@ -67,7 +67,7 @@
                                   <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="Editar" style="width:14px; height:14px; margin-right:3px;">
                                   Editar
                               </button>
-                              <button class="_custom-main-card-button btn-eliminar" data-id="${profe.id}"
+                              <button class="_custom-main-card-button btn-eliminar" data-id="${grupo.id}"
                                       style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; background-color: #e74c3c; color: white;">
                                   <img src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="Eliminar" style="width:14px; height:14px; margin-right:3px;">
                                   Eliminar
@@ -77,7 +77,7 @@
                       tbody.appendChild(fila);
                       document.querySelectorAll('.btn-eliminar').forEach(button => {
                       button.addEventListener('click', async () => {
-                        const idProfesor = button.getAttribute('data-id');
+                        const idGrupo = button.getAttribute('data-id');
                         
                         if (confirm("¿Seguro que quieres eliminar a este grupo?")) {
                           try {
