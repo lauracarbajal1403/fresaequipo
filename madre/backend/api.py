@@ -197,3 +197,23 @@ def get_horarios():
     cursor.close()
     conn.close()
     return {"horarios": horarios}
+@app.get("/gruposver")
+def obtener_gruposver():
+    try:
+        con = conexion()
+        conn = con.open()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, nombre, perfil, horario, contacto FROM grupos ORDER BY id;")
+        filas = cursor.fetchall()
+        grupos = []
+        for fila in filas:
+            grupos.append({
+                "id": fila[0],
+                "horario": fila[1]
+            })
+        return {"grupos": grupos}
+    except Exception as e:
+        return {"error": str(e)}
+    finally:
+        cursor.close()
+        conn.close()

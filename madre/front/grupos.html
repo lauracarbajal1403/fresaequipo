@@ -51,7 +51,7 @@
 
           async function cargarGrupos() {
               try {
-                  const response = await fetch(`${API_URL}/grupos`);
+                  const response = await fetch(`${API_URL}/gruposver`);
                   const data = await response.json();
 
                   const tbody = document.querySelector("#tablaGrupos tbody");
