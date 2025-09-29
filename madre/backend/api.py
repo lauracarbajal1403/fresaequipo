@@ -6,6 +6,7 @@ from dbprofesores import dbprofesores
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from conexion import conexion
 import os
 app = FastAPI()
 db_grupos = dbgrupos()
@@ -129,3 +130,26 @@ def verificar_profesor(profe: Profesor):
         return {"mensaje": "Profesor autenticado correctamente", "profesor": resultado}
     else:
         return {"mensaje": "Error de autenticación"}
+@app.get("/profesores")
+def obtener_profesores():
+    try:
+        con = conexion()
+        conn = con.open()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, nombre, perfil, horario, contacto FROM profesores ORDER BY id;")
+        filas = cursor.fetchall()
+        profesores = []
+        for fila in filas:
+            profesores.append({
+                "id": fila[0],
+                "nombre": fila[1],
+                "perfil": fila[2],
+                "horario": fila[3],
+                "contacto": fila[4]
+            })
+        return {"profesores": profesores}
+    except Exception as e:
+        return {"error": str(e)}
+    finally:
+        cursor.close()
+        conn.close()

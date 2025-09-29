@@ -59,7 +59,35 @@
             </tbody>
           </table>
         </div>
+        <script>
+          const API_URL = "https://fresaequipo-1.onrender.com";
 
+          async function cargarProfesores() {
+              try {
+                  const response = await fetch(`${API_URL}/profesores`);
+                  const data = await response.json();
+
+                  const tbody = document.querySelector("#tablaProfesores tbody");
+                  tbody.innerHTML = ""; 
+
+                  data.profesores.forEach(profe => {
+                      const fila = document.createElement("tr");
+                      fila.innerHTML = `
+                          <td>${profe.id}</td>
+                          <td>${profe.nombre}</td>
+                          <td>${profe.perfil}</td>
+                          <td>${profe.horario}</td>
+                          <td>${profe.contacto}</td>
+                      `;
+                      tbody.appendChild(fila);
+                  });
+
+              } catch (error) {
+                  console.error("Error al cargar profesores:", error);
+              }
+          }
+          window.onload = cargarProfesores;
+          </script>
       </div>
     </div>
   </div>
