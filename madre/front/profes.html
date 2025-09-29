@@ -88,6 +88,32 @@
           }
           window.onload = cargarProfesores;
           </script>
+          <script>
+            document.querySelectorAll('.btn-eliminar').forEach(button => {
+            button.addEventListener('click', async () => {
+              const idProfesor = button.getAttribute('data-id');
+              
+              if (confirm("¿Seguro que quieres eliminar a este profesor?")) {
+                try {
+                  const response = await fetch(`https://fresaequipo-1.onrender.com/eliminar_profesor/${idProfesor}`, {
+                    method: 'DELETE'
+                  });
+                  const data = await response.json();
+
+                  if (response.ok) {
+                    alert("Profesor eliminado correctamente");
+                    // Opcional: eliminar la fila de la tabla en el frontend
+                    button.closest('tr').remove();
+                  } else {
+                    alert(`Error: ${data.mensaje || response.statusText}`);
+                  }
+                } catch (error) {
+                  console.error("Error al eliminar:", error);
+                }
+              }
+            });
+          });
+        </script>
       </div>
     </div>
   </div>
