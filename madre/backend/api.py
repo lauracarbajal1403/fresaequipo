@@ -105,7 +105,9 @@ def read_crudprofe():
         part2 = f3.read()
     full_html = part1 + home1 + part2
     return HTMLResponse(full_html)
-
+class loginData(BaseModel):
+    id: int
+    contrasenia: str
 class Grupo(BaseModel):
     horario: str
 
@@ -156,7 +158,7 @@ def agregar_profesor(
     db_profesores.nuevo_profesor(profe)
     return {"mensaje": "Profesor agregado correctamente"}
 @app.put("/verificar_profesor")
-def verificar_profesor(profe: Profesor):
+def verificar_profesor(profe: loginData):
     resultado = db_profesores.autentificar(profe)
     if resultado:
         return {"mensaje": "Profesor autenticado correctamente", "profesor": resultado}

@@ -31,7 +31,7 @@
               
               
 
-              <div class="form-group" style="margin-bottom: 15px;">
+              <div class="form-group" style="margin-bottom: 15px;", id="HorarioForm">
                 <label for="horario">Horario:</label>
                 <input type="text" id="horario" name="horario" placeholder="Ej: Lunes 10:00 - 12:00" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
               </div>
@@ -47,9 +47,13 @@
                 </button>
                 <div id="message" style="margin-top: 10px;"></div>
               </div>
+    <div id="message"></div>
     <script>
       const API_URL = "https://fresaequipo-1.onrender.com";
-
+      const form = document.getElementById('HorarioForm');
+        form.addEventListener('submit', async (event) => {
+          event.preventDefault();
+      });
       async function agregarGrupo(grupoData) {
           const messageElement = document.getElementById('message'); 
           try {
