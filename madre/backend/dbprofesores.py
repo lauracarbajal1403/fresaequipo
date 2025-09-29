@@ -9,7 +9,6 @@ class dbprofesores:
             self.cursor = self.conn.cursor()
             self.sql = "INSERT INTO profesores (nombre, contrasenia, contacto, perfil, horario) VALUES ( %s, %s, %s, %s, %s)"
             self.datos = (
-                profe.id,
                 profe.nombre, 
                 profe.contrasenia,
                 profe.contacto,

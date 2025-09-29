@@ -93,7 +93,7 @@ class Profesor(BaseModel):
     perfil: str
     nombre: str
     horario: str
-    contrasenia: int
+    contrasenia: str
     contacto: int
 @app.post("/nuevo_grupo")
 def agregar_grupo(grupo: Grupo):
