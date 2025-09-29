@@ -157,7 +157,7 @@ def agregar_profesor(
     )
     db_profesores.nuevo_profesor(profe)
     return {"mensaje": "Profesor agregado correctamente"}
-@app.put("/verificar_profesor")
+@app.put("/login_profesor")
 def verificar_profesor(profe: loginData):
     resultado = db_profesores.autentificar(profe)
     if resultado:
