@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Form, Request
+from fastapi import FastAPI, Form, Request, Path
 from pydantic import BaseModel
 from dbgrupos import dbgrupos
 from dbalumnos import dbalumnos 
@@ -106,7 +106,7 @@ def agregar_alumno(alumno: Alumno):
     db_alumnos.nuevo_alumno(alumno)
     return {"mensaje": "Alumno agregado correctamente"}
 @app.api_route("/eliminar_profesor", methods=["DELETE"])
-def eliminar_profesor(profe: Profesor):
+def eliminar_profesor(id: int = Path(...)):
     profe = Profesor(id=id) 
     db_profesores.eliminar_profesor(profe)
     return {"mensaje": "Profesor eliminado correctamente"}
