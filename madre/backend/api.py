@@ -107,8 +107,7 @@ def agregar_alumno(alumno: Alumno):
     return {"mensaje": "Alumno agregado correctamente"}
 @app.api_route("/eliminar_profesor/{id}", methods=["DELETE"])
 def eliminar_profesor(id: int = Path(...)):
-    profe = Profesor(id=id) 
-    db_profesores.eliminar_profesor(profe)
+    db_profesores.eliminar_profesor(id)
     return {"mensaje": "Profesor eliminado correctamente"}
 @app.api_route("/nuevo_profesor", methods=["POST", "GET"])
 def agregar_profesor(
