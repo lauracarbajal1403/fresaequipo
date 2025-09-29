@@ -10,8 +10,8 @@ class dbgrupos:
             if conn is None:
                 return
             cursor = conn.cursor()
-            sql = "INSERT INTO grupos (id, grupo, horario) VALUES (%s, %s, %s)"
-            datos = (grupo.id, grupo.grupo)
+            sql = "INSERT INTO grupos (horario) VALUES (%s)"
+            datos = (grupo.horario)
             cursor.execute(sql, datos)
             conn.commit()
         except psycopg2.Error as e:

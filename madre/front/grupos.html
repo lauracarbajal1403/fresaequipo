@@ -33,14 +33,11 @@
 
         <div class="_custom-main-table-container" style="margin-top: 30px;">
           <h2>Listado de Grupos</h2>
-          <table border="1" cellpadding="10" cellspacing="0" width="100%", id ="tablaProfesores">
+          <table border="1" cellpadding="10" cellspacing="0" width="100%", id ="tablaGrupos">
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Horario</th>
-                <th>Perfil</th>
-                <th>Horario</th>
-                <th>Contacto</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -52,22 +49,19 @@
         <script>
           const API_URL = "https://fresaequipo-1.onrender.com";
 
-          async function cargarProfesores() {
+          async function cargarGrupos() {
               try {
-                  const response = await fetch(`${API_URL}/profesores`);
+                  const response = await fetch(`${API_URL}/grupos`);
                   const data = await response.json();
 
-                  const tbody = document.querySelector("#tablaProfesores tbody");
+                  const tbody = document.querySelector("#tablaGrupos tbody");
                   tbody.innerHTML = ""; 
 
-                  data.profesores.forEach(profe => {
+                  data.grupos.forEach(grupo => {
                       const fila = document.createElement("tr");
                       fila.innerHTML = `
-                          <td>${profe.id}</td>
-                          <td>${profe.nombre}</td>
-                          <td>${profe.perfil}</td>
-                          <td>${profe.horario}</td>
-                          <td>${profe.contacto}</td>
+                          <td>${grupo.id}</td>
+                          <td>${grupo.horario}</td>
                           <td>
                               <button class="_custom-main-card-button" style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; margin-right: 5px;">
                                   <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="Editar" style="width:14px; height:14px; margin-right:3px;">
@@ -85,15 +79,15 @@
                       button.addEventListener('click', async () => {
                         const idProfesor = button.getAttribute('data-id');
                         
-                        if (confirm("¿Seguro que quieres eliminar a este profesor?")) {
+                        if (confirm("¿Seguro que quieres eliminar a este grupo?")) {
                           try {
-                            const response = await fetch(`${API_URL}/eliminar_profesor/${idProfesor}`, {
+                            const response = await fetch(`${API_URL}/eliminar_grupo/${idGrupo}`, {
                               method: 'DELETE'
                             });
                             const data = await response.json();
 
                             if (response.ok) {
-                              alert("Profesor eliminado correctamente");
+                              alert("Grupo eliminado correctamente");
                               button.closest('tr').remove();
                             } else {
                               alert(`Error: ${data.mensaje || response.statusText}`);
@@ -107,10 +101,10 @@
                   });
 
               } catch (error) {
-                  console.error("Error al cargar profesores:", error);
+                  console.error("Error al cargar grupos:", error);
               }
           }
-          window.onload = cargarProfesores;
+          window.onload = cargarGrupos;
           </script>
           
       </div>

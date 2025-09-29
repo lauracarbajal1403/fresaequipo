@@ -13,7 +13,7 @@ try:
     cur = conn.cursor()
 
     sql = """
-    CREATE TABLE IF NOT EXISTS profesores (
+    CREATE TABLE IF NOT EXISTS grupos (
         id SERIAL PRIMARY KEY,
         horario VARCHAR(100) NOT NULL
     );

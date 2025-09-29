@@ -48,6 +48,19 @@ def read_home():
     full_html = part1 + home + part2
     return HTMLResponse(full_html)
 
+@app.get("/grupos", response_class=HTMLResponse)
+def read_grupos():
+    grupos_file = os.path.join(current_dir, "..", "front", "grupos.html")
+    with open(grupos_file, "r", encoding="utf-8") as f1:
+        grupos = f1.read()
+    part1 = os.path.join(current_dir, "..", "front",  "parte1.html")
+    part2 = os.path.join(current_dir,  "..", "front", "parte2.html")
+    with open(part1, "r", encoding="utf-8") as f2:
+        part1 = f2.read()
+    with open(part2, "r", encoding="utf-8") as f3:
+        part2 = f3.read()
+    full_html = part1 + grupos + part2
+    return HTMLResponse(full_html)
 
 @app.get("/profes", response_class=HTMLResponse)
 def read_profesores():
@@ -80,7 +93,6 @@ def read_crudprofe():
 
 class Grupo(BaseModel):
     id: int
-    grupo: str
     horario: str
 
 class Alumno(BaseModel):
@@ -97,7 +109,10 @@ class Profesor(BaseModel):
     contrasenia: str
     contacto: int
 @app.post("/nuevo_grupo")
-def agregar_grupo(grupo: Grupo):
+def agregar_grupo(horario: str = Form(...),):
+    grupo = Grupo(
+        horario=horario,
+    )
     db_grupos.nuevo_grupo(grupo)
     return {"mensaje": "Grupo agregado correctamente"}
 
