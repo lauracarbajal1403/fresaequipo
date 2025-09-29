@@ -81,6 +81,29 @@
                           </td>
                       `;
                       tbody.appendChild(fila);
+                      document.querySelectorAll('.btn-eliminar').forEach(button => {
+                      button.addEventListener('click', async () => {
+                        const idProfesor = button.getAttribute('data-id');
+                        
+                        if (confirm("¿Seguro que quieres eliminar a este profesor?")) {
+                          try {
+                            const response = await fetch(`${API_URL}/eliminar_profesor/${idProfesor}`, {
+                              method: 'DELETE'
+                            });
+                            const data = await response.json();
+
+                            if (response.ok) {
+                              alert("Profesor eliminado correctamente");
+                              button.closest('tr').remove();
+                            } else {
+                              alert(`Error: ${data.mensaje || response.statusText}`);
+                            }
+                          } catch (error) {
+                            console.error("Error al eliminar:", error);
+                          }
+                        }
+                      });
+                    });
                   });
 
               } catch (error) {
@@ -89,31 +112,7 @@
           }
           window.onload = cargarProfesores;
           </script>
-          <script>
-            document.querySelectorAll('.btn-eliminar').forEach(button => {
-            button.addEventListener('click', async () => {
-              const idProfesor = button.getAttribute('data-id');
-              
-              if (confirm("¿Seguro que quieres eliminar a este profesor?")) {
-                try {
-                  const response = await fetch(`${API_URL}/eliminar_profesor/${idProfesor}`, {
-                    method: 'DELETE'
-                  });
-                  const data = await response.json();
-
-                  if (response.ok) {
-                    alert("Profesor eliminado correctamente");
-                    button.closest('tr').remove();
-                  } else {
-                    alert(`Error: ${data.mensaje || response.statusText}`);
-                  }
-                } catch (error) {
-                  console.error("Error al eliminar:", error);
-                }
-              }
-            });
-          });
-        </script>
+          
       </div>
     </div>
   </div>
