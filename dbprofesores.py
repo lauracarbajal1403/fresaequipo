@@ -61,12 +61,12 @@ class dbprofesores:
         self.conn.commit()
         self.conn.close()
     
-    def eliminar_profesor(self, profe):
+    def eliminar_profesor(self, id_profesor):
         self.con=con.conexion()
         self.conn=self.con.open()
         self.cursor1=self.conn.cursor()
-        self.sql = "DELETE FROM profesores WHERE idempleado = %s"
-        self.cursor1.execute(self.sql, (profe.id,))
+        self.sql = "DELETE FROM profesores WHERE id = %s"
+        self.cursor1.execute(self.sql, (id_profesor,))
         self.conn.commit()
 
     def getid_profesor(self):

@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Form, Request
+from fastapi import FastAPI, Form, Request, Path
 from pydantic import BaseModel
 from dbgrupos import dbgrupos
 from dbalumnos import dbalumnos 
@@ -6,6 +6,7 @@ from dbprofesores import dbprofesores
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from conexion import conexion
 import os
 app = FastAPI()
 db_grupos = dbgrupos()
@@ -47,6 +48,19 @@ def read_home():
     full_html = part1 + home + part2
     return HTMLResponse(full_html)
 
+@app.get("/grupos", response_class=HTMLResponse)
+def read_grupos():
+    grupos_file = os.path.join(current_dir, "..", "front", "grupos.html")
+    with open(grupos_file, "r", encoding="utf-8") as f1:
+        grupos = f1.read()
+    part1 = os.path.join(current_dir, "..", "front",  "parte1.html")
+    part2 = os.path.join(current_dir,  "..", "front", "parte2.html")
+    with open(part1, "r", encoding="utf-8") as f2:
+        part1 = f2.read()
+    with open(part2, "r", encoding="utf-8") as f3:
+        part2 = f3.read()
+    full_html = part1 + grupos + part2
+    return HTMLResponse(full_html)
 
 @app.get("/profes", response_class=HTMLResponse)
 def read_profesores():
@@ -79,7 +93,6 @@ def read_crudprofe():
 
 class Grupo(BaseModel):
     id: int
-    grupo: str
     horario: str
 
 class Alumno(BaseModel):
@@ -96,7 +109,10 @@ class Profesor(BaseModel):
     contrasenia: str
     contacto: int
 @app.post("/nuevo_grupo")
-def agregar_grupo(grupo: Grupo):
+def agregar_grupo(horario: str = Form(...),):
+    grupo = Grupo(
+        horario=horario,
+    )
     db_grupos.nuevo_grupo(grupo)
     return {"mensaje": "Grupo agregado correctamente"}
 
@@ -104,7 +120,10 @@ def agregar_grupo(grupo: Grupo):
 def agregar_alumno(alumno: Alumno):
     db_alumnos.nuevo_alumno(alumno)
     return {"mensaje": "Alumno agregado correctamente"}
-
+@app.api_route("/eliminar_profesor/{id}", methods=["DELETE"])
+def eliminar_profesor(id: int = Path(...)):
+    db_profesores.eliminar_profesor(id)
+    return {"mensaje": "Profesor eliminado correctamente"}
 @app.api_route("/nuevo_profesor", methods=["POST", "GET"])
 def agregar_profesor(
     nombre: str = Form(...),
@@ -129,3 +148,26 @@ def verificar_profesor(profe: Profesor):
         return {"mensaje": "Profesor autenticado correctamente", "profesor": resultado}
     else:
         return {"mensaje": "Error de autenticación"}
+@app.get("/profesores")
+def obtener_profesores():
+    try:
+        con = conexion()
+        conn = con.open()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, nombre, perfil, horario, contacto FROM profesores ORDER BY id;")
+        filas = cursor.fetchall()
+        profesores = []
+        for fila in filas:
+            profesores.append({
+                "id": fila[0],
+                "nombre": fila[1],
+                "perfil": fila[2],
+                "horario": fila[3],
+                "contacto": fila[4]
+            })
+        return {"profesores": profesores}
+    except Exception as e:
+        return {"error": str(e)}
+    finally:
+        cursor.close()
+        conn.close()
