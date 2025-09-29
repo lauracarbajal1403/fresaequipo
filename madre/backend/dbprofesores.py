@@ -90,7 +90,7 @@ class dbprofesores:
             self.conn=self.con.open()
             self.cursor1=self.conn.cursor()
             aux=None
-            self.sql = "SELECT * FROM profesores WHERE idempleado = %s"
+            self.sql = "SELECT * FROM profesores WHERE id = %s"
             self.cursor1.execute(self.sql, (profe.id,))
             print("ok")
             row = self.cursor1.fetchone()
