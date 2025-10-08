@@ -14,7 +14,9 @@ db_alumnos = dbalumnos()
 db_profesores = dbprofesores()
 origins =[
     "https://fresaequipo-1.onrender.com",
-    "http://localhost:8000"
+    "http://localhost:8000",
+    "http://localhost:80",
+    "http://127.0.0.1"
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -203,7 +205,7 @@ def obtener_gruposver():
         con = conexion()
         conn = con.open()
         cursor = conn.cursor()
-        cursor.execute("SELECT id, horario, contacto FROM grupos ORDER BY id;")
+        cursor.execute("SELECT id, horario FROM grupos ORDER BY id;")
         filas = cursor.fetchall()
         grupos = []
         for fila in filas:
