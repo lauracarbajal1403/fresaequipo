@@ -11,7 +11,7 @@ class dbgrupos:
                 return
             cursor = conn.cursor()
             sql = "INSERT INTO grupos (horario) VALUES (%s)"
-            datos = (grupo.horario)
+            datos = (grupo.horario,)
             cursor.execute(sql, datos)
             conn.commit()
         except psycopg2.Error as e:

@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from conexion import conexion
+
 import os
 app = FastAPI()
 db_grupos = dbgrupos()
@@ -14,7 +15,9 @@ db_alumnos = dbalumnos()
 db_profesores = dbprofesores()
 origins =[
     "https://fresaequipo-1.onrender.com",
-    "http://localhost:8000"
+    "http://localhost:8000",
+    "http://localhost:80",
+    "http://127.0.0.1"
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -62,6 +65,21 @@ def read_grupos():
     full_html = part1 + grupos + part2
     return HTMLResponse(full_html)
 
+
+@app.get("/crudgrupos", response_class=HTMLResponse)
+def read_crudgrupos():
+    grupos_file = os.path.join(current_dir, "..", "front", "crudgrupos.html")
+    with open(grupos_file, "r", encoding="utf-8") as f1:
+        grupos = f1.read()
+    part1 = os.path.join(current_dir, "..", "front",  "parte1.html")
+    part2 = os.path.join(current_dir,  "..", "front", "parte2.html")
+    with open(part1, "r", encoding="utf-8") as f2:
+        part1 = f2.read()
+    with open(part2, "r", encoding="utf-8") as f3:
+        part2 = f3.read()
+    full_html = part1 + grupos + part2
+    return HTMLResponse(full_html)
+
 @app.get("/profes", response_class=HTMLResponse)
 def read_profesores():
     home_file = os.path.join(current_dir, "..", "front", "profes.html")
@@ -90,9 +108,10 @@ def read_crudprofe():
         part2 = f3.read()
     full_html = part1 + home1 + part2
     return HTMLResponse(full_html)
-
-class Grupo(BaseModel):
+class loginData(BaseModel):
     id: int
+    contrasenia: str
+class Grupo(BaseModel):
     horario: str
 
 class Alumno(BaseModel):
@@ -141,8 +160,8 @@ def agregar_profesor(
     )
     db_profesores.nuevo_profesor(profe)
     return {"mensaje": "Profesor agregado correctamente"}
-@app.put("/verificar_profesor")
-def verificar_profesor(profe: Profesor):
+@app.post("/login_profesor")
+def verificar_profesor(profe: loginData):
     resultado = db_profesores.autentificar(profe)
     if resultado:
         return {"mensaje": "Profesor autenticado correctamente", "profesor": resultado}
@@ -166,6 +185,36 @@ def obtener_profesores():
                 "contacto": fila[4]
             })
         return {"profesores": profesores}
+    except Exception as e:
+        return {"error": str(e)}
+    finally:
+        cursor.close()
+        conn.close()
+@app.get("/horarios")
+def get_horarios():
+    con = conexion()
+    conn = con.open()
+    cursor = conn.cursor()
+    cursor.execute("SELECT horario FROM grupos")
+    horarios = [row[0] for row in cursor.fetchall()]
+    cursor.close()
+    conn.close()
+    return {"horarios": horarios}
+@app.get("/gruposver")
+def obtener_gruposver():
+    try:
+        con = conexion()
+        conn = con.open()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, horario FROM grupos ORDER BY id;")
+        filas = cursor.fetchall()
+        grupos = []
+        for fila in filas:
+            grupos.append({
+                "id": fila[0],
+                "horario": fila[1]
+            })
+        return {"grupos": grupos}
     except Exception as e:
         return {"error": str(e)}
     finally:

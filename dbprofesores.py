@@ -90,7 +90,7 @@ class dbprofesores:
             self.conn=self.con.open()
             self.cursor1=self.conn.cursor()
             aux=None
-            self.sql = "SELECT * FROM profesores WHERE idempleado = %s"
+            self.sql = "SELECT * FROM profesores WHERE id = %s"
             self.cursor1.execute(self.sql, (profe.id,))
             print("ok")
             row = self.cursor1.fetchone()
@@ -98,7 +98,7 @@ class dbprofesores:
             self.conn.close()
             if row is not None:
                 print("quiza")
-                if profe.contrasenia==row[2]:
+                if profe.contrasenia==row[4]:
                     print("hola")
                     return {
                         "id": int(row[0]),
@@ -111,6 +111,8 @@ class dbprofesores:
                     print("Error", "Contraseña incorrecta")
             else:
                 print("Error", "Usuario no encontrado")
-        except:
-            print("NOOOOOO")
+        except Exception as e:
+            print(f"ERROR: {type(e).__name__}: {e}")
+            import traceback
+            traceback.print_exc()
     
