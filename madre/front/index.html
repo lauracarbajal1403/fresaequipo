@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Login - English4U</title>
+    <link rel="stylesheet" href="/front/public/css/index.css">
+    <link rel="stylesheet" href="/front/public/css/app.css">
+</head>
+<body>
+    <div class="login-container">
+        <h1 class="login-h1">English4U</h1>
+        <h2 class="login-h2">Iniciar sesión</h2>
+        
+        <form class="login" id="loginForm">
+            <input
+                class="login-input"
+                type="text"
+                name="username"
+                placeholder="Usuario"
+                required
+            />
+            <input
+                class="login-input"
+                type="password"
+                name="password"
+                placeholder="Contraseña"
+                required
+            />
+            <!--
+            <a class="login-forgot-password" href="">¿Olvidaste tu contraseña?</a>
+            -->
+            <button class="login-button" type="submit">Iniciar sesión</button>
+            <!--<a href="home">Home</a>-->
+            
+            <p id="message" style="color: red; margin-top: 10px;"></p>
+        </form>
+    </div>
+
+<div id="message"></div>
+
+<script>
+const API_URL = "https://fresaequipo-1.onrender.com";
+const form = document.getElementById('loginForm');
+const messageElement = document.getElementById('message');
+
+form.addEventListener('submit', async (event) => {
+    event.preventDefault(); // evitar recarga
+
+    const username = parseInt(form.username.value);
+    const password = form.password.value;
+
+    const loginData = {
+        id: username,
+        contrasenia: password
+    };
+
+    messageElement.textContent = 'Verificando credenciales...';
+    messageElement.style.color = 'black';
+
+    try {
+        const response = await fetch(`${API_URL}/login_profesor`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(loginData)
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            if (data.mensaje === "Profesor autenticado correctamente") {
+                messageElement.textContent = `¡Bienvenido/a, ${data.profesor.nombre}!`;
+                messageElement.style.color = 'green';
+
+                setTimeout(() => {
+                    window.location.href = "home"; 
+                }, 1000);
+            } else {
+                messageElement.textContent = data.mensaje || "Credenciales incorrectas. Inténtalo de nuevo.";
+                messageElement.style.color = 'red';
+            }
+        } else {
+            messageElement.textContent = `Error en el servidor (${response.status}): ${data.detail || response.statusText}`;
+            messageElement.style.color = 'red';
+        }
+    } catch (error) {
+        console.error('Error de conexión:', error);
+        messageElement.textContent = 'No se pudo conectar con el servidor de la API.';
+        messageElement.style.color = 'red';
+    }
+});
+</script>
+
+
+</body>
+</html>

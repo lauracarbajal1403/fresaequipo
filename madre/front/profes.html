@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CRUD Profesores</title>
+  <link rel="stylesheet" href="/front/public/css/index.css">
+  <link rel="stylesheet" href="/front/public/css/app.css">
+</head>
+<body>
+  <object type="text/html" data="/parte1" width="device-width" height="1"></object>
+
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Gestión de Profesores</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="_custom-main-container">
+      <div class="_custom-main-rows-container">
+        
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+            <a href="/crudprofe" class="_custom-main-card-button" style="padding: 6px 12px; font-size: 14px; border-radius: 5px; display: inline-flex; align-items: center;">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" alt="Agregar" style="width:16px; height:16px; margin-right:5px;">
+                Agregar Profesor
+            </a>
+        </div>
+
+        <div class="_custom-main-table-container" style="margin-top: 30px;">
+          <h2>Listado de Profesores</h2>
+          <table border="1" cellpadding="10" cellspacing="0" width="100%", id ="tablaProfesores">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Perfil</th>
+                <th>Horario</th>
+                <th>Contacto</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <script>
+          const API_URL = "https://fresaequipo-1.onrender.com"; 
+          async function cargarProfesores() {
+            try {
+              const response = await fetch(`${API_URL}/profesores`);
+              const data = await response.json();
+
+              const tbody = document.querySelector("#tablaProfesores tbody");
+              tbody.innerHTML = ""; 
+
+              data.profesores.forEach(profe => {
+                const fila = document.createElement("tr");
+                fila.innerHTML = `
+                  <td>${profe.id}</td>
+                  <td>${profe.nombre}</td>
+                  <td>${profe.perfil}</td>
+                  <td>${profe.horario}</td>
+                  <td>${profe.contacto}</td>
+                  <td>
+                    <button class="_custom-main-card-button btn-editar" 
+                            style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; margin-right: 5px;">
+                      <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="Editar" style="width:14px; height:14px; margin-right:3px;">
+                      Editar
+                    </button>
+                    <button class="_custom-main-card-button btn-eliminar" data-id="${profe.id}"
+                            style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; background-color: #e74c3c; color: white;">
+                      <img src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="Eliminar" style="width:14px; height:14px; margin-right:3px;">
+                      Eliminar
+                    </button>
+                  </td>
+                `;
+                
+                // agregar la fila
+                tbody.appendChild(fila);
+
+                // añadir listener SOLO al botón eliminar de esta fila
+                const btnEliminar = fila.querySelector(".btn-eliminar");
+                btnEliminar.addEventListener("click", async () => {
+                  const idProfesor = btnEliminar.getAttribute("data-id");
+                  if (confirm("¿Seguro que quieres eliminar a este profesor?")) {
+                    try {
+                      const response = await fetch(`${API_URL}/eliminar_profesor/${idProfesor}`, {
+                        method: "DELETE"
+                      });
+                      const data = await response.json();
+
+                      if (response.ok) {
+                        alert("Profesor eliminado correctamente");
+                        fila.remove(); // eliminamos solo la fila actual
+                      } else {
+                        alert(`Error: ${data.mensaje || response.statusText}`);
+                      }
+                    } catch (error) {
+                      console.error("Error al eliminar:", error);
+                    }
+                  }
+                });
+              });
+            } catch (error) {
+              console.error("Error al cargar profesores:", error);
+            }
+          }
+
+          // ejecutar al cargar la página
+          window.onload = cargarProfesores;
+          </script>
+
+          
+      </div>
+    </div>
+  </div>
+
+
+  <object type="text/html" data="/parte2" width="device-width" height="1"></object>
+</body>
+</html>

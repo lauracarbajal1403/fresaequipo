@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agregar Profesor</title>
+  <link rel="stylesheet" href="/front/public/css/index.css">
+  <link rel="stylesheet" href="/front/public/css/app.css">
+</head>
+<body>
+  <object type="text/html" data="/parte1" width="device-width" height="1"></object>
+
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Agregar Profesor</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="_custom-main-container">
+      <div class="_custom-main-rows-container">
+        
+        <div class="_custom-main-cards-container" style="justify-content: center;">
+          <div class="_custom-main-card-container" style="padding: 20px; width: 100%; max-width: 500px;">
+            <h2 style="text-align: center; margin-bottom: 20px;">Formulario</h2>
+            <form action="/nuevo_profesor" method="POST">
+              
+              <div class="form-group" style="margin-bottom: 15px;", id="ProfesorForm">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 15px;">
+                <label for="perfil">Perfil:</label>
+                <select id="perfil" name="perfil" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                  <option value="">Selecciona un perfil</option>
+                  <option value="Administrador">Administrador</option>
+                  <option value="Colaborador">Colaborador</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 15px;">
+                <label for="horario">Horario:</label>
+                <select id="horario" name="horario" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                  <option value="">-- Selecciona un horario --</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 15px;">
+                <label for="contrasenia">Contraseña:</label>
+                <input type="password" id="contrasenia" name="contrasenia" maxlength="12" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 15px;">
+                <label for="contacto">Contacto:</label>
+                <input type="text" id="contacto" name="contacto" maxlength="12" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;" placeholder="Teléfono o WhatsApp">
+              </div>
+            <!-- 
+              <div class="form-group" style="margin-bottom: 15px;">
+                <label for="id">ID:</label>
+                <input type="text" id="id" name="id" maxlength="12" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;" placeholder="ID del Profesor">
+              </div>
+            -->
+              <div style="text-align: center; margin-top: 20px;">
+                 <button type="submit" class="_custom-main-card-button" style="padding: 10px 20px; border-radius: 8px; border: 1px solid #ccc; display: inline-flex; align-items: center;">
+                    Guardar
+                </button>
+                <div id="message" style="margin-top: 10px;"></div>
+              </div>
+    <div id="message"></div>
+    <script>
+      const API_URL = "https://fresaequipo-1.onrender.com";
+      const form = document.getElementById('profesorForm');
+        form.addEventListener('submit', async (event) => {
+          event.preventDefault();
+      });
+
+      async function agregarProfesor(loginData) {
+          const messageElement = document.getElementById('message');
+          try {
+              const response = await fetch(`${API_URL}/nuevo_profesor`, {
+                  method: 'POST', 
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(loginData)
+              });
+
+              const data = await response.json();
+
+              if (response.ok) {
+                  if (data.mensaje === "Profesor agregado correctamente") {
+                      messageElement.textContent = "¡Profesor agregado correctamente!";
+                      messageElement.style.color = 'green';
+                  } else {
+                      messageElement.textContent = data.mensaje || "Error desconocido.";
+                      messageElement.style.color = 'red';
+                  }
+              } else {
+                  messageElement.textContent = `Error en el servidor (${response.status}): ${data.detail || response.statusText}`;
+                  messageElement.style.color = 'red';
+              }
+          } catch (error) {
+              console.error('Error de conexión:', error);
+              messageElement.textContent = 'No se pudo conectar con el servidor de la API.';
+              messageElement.style.color = 'red';
+          }
+      }
+        </script>
+        <script>
+              const selectHorario = document.getElementById('horario');
+              const API_URL1 = 'https://fresaequipo-1.onrender.com'; 
+
+              async function cargarHorarios() {
+                try {
+                  const response = await fetch(`${API_URL1}/horarios`);
+                  const data = await response.json();
+                  
+                  if(data.horarios.length > 0){
+                    data.horarios.forEach(horario => {
+                      const option = document.createElement('option');
+                      option.value = horario;
+                      option.textContent = horario;
+                      selectHorario.appendChild(option);
+                    });
+                  } else {
+                    const option = document.createElement('option');
+                    option.value = '';
+                    option.textContent = 'No hay horarios disponibles';
+                    selectHorario.appendChild(option);
+                  }
+                } catch (error) {
+                  console.error('Error al cargar horarios:', error);
+                }
+              }
+
+              cargarHorarios();
+              </script>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <object type="text/html" data="/parte2" width="device-width" height="1"></object>
+</body>
+</html>
