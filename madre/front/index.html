@@ -39,10 +39,7 @@
 <div id="message"></div>
 
 <script>
-const isLocal = window.location.hostname === "localhost";
-const API_URL = isLocal
-  ? "http://localhost:8000"
-  : "https://fresaequipo-1.onrender.com";
+const API_URL = ""; // La ruta de la API es la raíz del servidor actual.
 const form = document.getElementById('loginForm');
 const messageElement = document.getElementById('message');
 

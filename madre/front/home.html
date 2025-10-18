@@ -1,88 +1,103 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Inicio</title>
-  <!-- Aquí enlazas tus estilos -->
-  <link rel="stylesheet" href="/front/public/css/index.css">
-  <link rel="stylesheet" href="/front/public/css/app.css">
-</head>
-<body>
-  <object type="text/html" data="/parte1" width="device-width" height="1"></object>
-  <!-- Content Wrapper -->
-  <div class="content-wrapper">
-    <!-- Content Header -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Inicio</h1>
-          </div>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home - English4U</title>
+    <link rel="stylesheet" href="/front/public/css/home.css" />
+    <link rel="stylesheet" href="/front/public/css/main.css" />
+  </head>
+  <body>
+
+    <header class="main-header">
+      <div class="header-content">
+        <img
+          src="/front/public/assets/logo.png"
+          alt="Logo English4U"
+          class="header-logo"
+        />
+
+        <span class="header-title">English4U</span>
       </div>
-    </div>
-    <!-- /.content-header -->
+    </header>
 
-    <!-- Main content -->
-    <div class="_custom-main-container">
-      <!-- Contendor de filas -->
-      <div class="_custom-main-rows-container">
-        
-        <!-- Primera fila de cartas -->
-        <div class="_custom-main-cards-container">
-          <button class="_custom-main-card-button">
-            <div class="_custom-main-card-container">
-              <img src="https://i.ytimg.com/vi/etxjQPVtE5s/hqdefault.jpg" alt="Alumnos">
-              <h3>Alumnos</h3>
-            </div>
-          </button>
+    <nav class="main-sidebar">
+      <nav class="main-sidebar">
+        <ul class="sidebar-menu">
+          <li><a href="/alumnos">Alumnos</a></li>
+          <li><a href="/profesores">Profesores</a></li>
+          <li><a href="/grupos">Grupos</a></li>
+          <li><a href="/modulos">Módulos</a></li>
+          <li><a href="/inventario">Inventario</a></li>
+          <li><a href="/administracion">Administración</a></li>
+          <li><a href="#">Cerrar sesion</a></li>
+        </ul>
+      </nav>
+    </nav>
 
-          <div class="_custom-main-card-button">
-            <div class="_custom-main-card-container">
-              <img src="https://i.ytimg.com/vi/etxjQPVtE5s/hqdefault.jpg" alt="Personal">
-              <a href="/profes" class="btn" style="text-decoration: none; color: inherit; display: inline-block; width: 100%; text-align: center;">Profesores</a>
-            </div>
+    <main class="main-content">
+      <h2>Home</h2>
+      <section class="grid-container">
+        <a href="" class="cards-link">
+          <div class="card">
+            <img
+              src="/front/public/assets/student-cap-svgrepo-com.svg"
+              alt="Alumnos"
+            />
+            Alumnos
           </div>
+        </a>
 
-          <button class="_custom-main-card-button">
-            <div class="_custom-main-card-container">
-              <img src="https://i.ytimg.com/vi/etxjQPVtE5s/hqdefault.jpg" alt="Grupos">
-              <a href="/grupos" class="btn" style="text-decoration: none; color: inherit; display: inline-block; width: 100%; text-align: center;">Grupos</a>
-            </div>
-          </button>
-        </div>
+        <a href="" class="cards-link">
+          <div class="card">
+            <img
+              src="/front/public/assets/teacher-svgrepo-com.svg"
+              alt="Profesores"
+            />
+            Profesores
+          </div>
+        </a>
 
-        <!-- Segunda fila de cartas -->
-        <div class="_custom-main-cards-container">
-          <button class="_custom-main-card-button">
-            <div class="_custom-main-card-container">
-              <img src="https://i.ytimg.com/vi/etxjQPVtE5s/hqdefault.jpg" alt="Módulos">
-              <h3>Módulos</h3>
-            </div>
-          </button>
+        <a href="" class="cards-link">
+          <div class="card">
+            <img
+              src="/front/public/assets/group-svgrepo-com.svg"
+              alt="Grupos"
+            />
+            Grupos
+          </div>
+        </a>
 
-          <button class="_custom-main-card-button">
-            <div class="_custom-main-card-container">
-              <img src="https://i.ytimg.com/vi/etxjQPVtE5s/hqdefault.jpg" alt="Inventario">
-              <h3>Inventario</h3>
-            </div>
-          </button>
+        <a href="" class="cards-link">
+          <div class="card">
+            <img
+              src="/front/public/assets/modules-svgrepo-com.svg"
+              alt="Módulos"
+            />
+            Módulos
+          </div>
+        </a>
 
-          <button class="_custom-main-card-button">
-            <div class="_custom-main-card-container">
-              <img src="https://i.ytimg.com/vi/etxjQPVtE5s/hqdefault.jpg" alt="Administración">
-              <h3>Administración</h3>
-            </div>
-          </button>
-        </div>
-      </div>
-    </div>
-    <!-- /.content -->
+        <a href="" class="cards-link">
+          <div class="card">
+            <img
+              src="/front/public/assets/warehouse-inventory-stock-merchandise-svgrepo-com.svg"
+              alt="Inventario"
+            />
+            Inventario
+          </div>
+        </a>
 
-  </div>
-  <!-- /.content-wrapper -->
-  <object type="text/html" data="/parte2" width=device-width height=1></object>
-</body>
-
+        <a href="" class="cards-link">
+          <div class="card">
+            <img
+              src="/front/public/assets/admin-users-svgrepo-com.svg"
+              alt="Administración"
+            />
+            Administración
+          </div>
+        </a>
+      </section>
+    </main>
+  </body>
 </html>
