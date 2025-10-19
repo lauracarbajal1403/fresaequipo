@@ -20,7 +20,7 @@ class dbgrupos:
             if conn:
                 conn.close()
 
-    """
+    
     def buscar_grupo(self, grupo):
         try:
             self.con = con.conexion()
@@ -35,14 +35,13 @@ class dbgrupos:
             print("wow")
             if row[0] is not None:
                 print("ok")
-                auxi = gr.grupos()
-                auxi.setid(row[0])
-                auxi.sethorario(row[1])
+                grupo.setid(row[0])
+                grupo.sethorario(row[1])
         except Exception as e:
             print(f"Error al buscar grupo: {e}")
             return None
-        return auxi
-    """
+        return grupo
+    
     def editar_grupo(self, grupo):
         self.con=con.conexion()
         self.conn=self.con.open()

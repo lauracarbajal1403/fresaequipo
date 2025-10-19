@@ -5,7 +5,7 @@ class conexion:
         self.user="dbprofesores_x3qm_user"
         self.password = "fi9u9iDsuXDPfSzZDPyijSpLVCn5K3rY"
         self.database = "dbprofesores_x3qm"
-        self.host = "dpg-d3c6aab7mgec73a8p0dg-a"
+        self.host = "dpg-d3c6aab7mgec73a8p0dg-a.oregon-postgres.render.com"
         self.port = "5432"
     def open(self):
         self.conn = psycopg2.connect(

@@ -22,33 +22,31 @@ class dbprofesores:
         finally:
             self.conn.close()
 
-    """
     def buscar_profesor(self, profe):
         try:
             self.con = con.conexion()
             self.conn = self.con.open()
             self.cursor1=self.conn.cursor()
             auxi=None
-            self.sql = "SELECT * FROM profesores WHERE idempleado = %s"
-            self.cursor1.execute(self.sql, (profe.id))
+            self.sql = "SELECT * FROM profesores WHERE nombre = %s"
+            self.cursor1.execute(self.sql, (profe.nombre,))
             row = self.cursor1.fetchone()
             self.conn.commit()
             self.conn.close()
             print("wow")
-            if row[2] is not None:
+            if row[1] is not None:
                 print("ok")
-                auxi = pro.profesores()
-                auxi.setide(row[0])
-                auxi.setnombrepro(row[1])
-                auxi.setpassw(row[2])
-                auxi.setcontacto(row[3])
-                auxi.setperfil(row[4])
-                auxi.sethorario(row[5])
+                profe.setide(row[0])
+                profe.setnombrepro(row[1])
+                profe.setpassw(row[2])
+                profe.setcontacto(row[3])
+                profe.setperfil(row[4])
+                profe.sethorario(row[5])
         except Exception as e:
-            print(f"Error al buscar alumno: {e}")
+            print(f"Error al buscar profesor: {e}")
             return None
-        return auxi
-    """
+        return profe
+
     def editar_profesor(self, profe):
         self.con=con.conexion()
         self.conn=self.con.open()
