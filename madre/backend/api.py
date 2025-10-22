@@ -86,7 +86,7 @@ def read_modulos():
 @app.get("/sesion", response_class=HTMLResponse)
 def read_sesion():
    
-    home_file = os.path.join(current_dir, "..", "front", "sesion.html")
+    home_file = os.path.join(current_dir, "..", "front", "index.html")
     with open(home_file, "r", encoding="utf-8") as f1:
         home = f1.read()
     return HTMLResponse(home)
@@ -217,21 +217,21 @@ def get_alumnos():
     most = db_alumnos.listar_alumnos()
     return most
 
-@app.get("/alumno/{codigo}")
-def get_alumno(codigo: int = Path(...)):
+@app.get("/buscaralumno")
+def get_alumno(nombre: str = Path(...)):
     """
-    Obtiene un alumno por su código.
+    Obtiene un alumno por su nombre.
     - Retorna objeto con datos del alumno.
     """
-    alumno = db_alumnos.buscar_alumno(codigo)
+    alumno = db_alumnos.buscar_alumno(nombre)
     return alumno
 
-@app.get("/estado_alumno")
-def estado_alumno(codigo: int):
+@app.get("/buscarestado")
+def estado_alumno(estado: str = Path(...)):
     """
-    Verifica si un alumno existe por su código.
+    Verifica si un alumno existe por su estado.
     """
-    alumno = db_alumnos.buscar_estado(codigo)
+    alumno = db_alumnos.buscar_estado(estado)
     return alumno
 
 @app.post("/nuevo_alumno")

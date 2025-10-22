@@ -31,9 +31,13 @@
               
               
 
-              <div class="form-group" style="margin-bottom: 15px;", id="HorarioForm">
-                <label for="horario">Horario:</label>
-                <input type="text" id="horario" name="horario" placeholder="Ej: Lunes 10:00 - 12:00" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+              <div class="form-group" style="margin-bottom: 15px;", id="AlumnoForm">
+                <label for="id">ID:</label>
+                <input type="text" id="id" name="id" placeholder="Ej: 12345" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                
+              </div>
               </div>
             <!-- 
               <div class="form-group" style="margin-bottom: 15px;">
@@ -50,7 +54,7 @@
     <div id="message"></div>
     <script>
       const API_URL = "https://fresaequipo-1.onrender.com";
-      const form = document.getElementById('HorarioForm');
+      const form = document.getElementById('AlumnoForm');
         form.addEventListener('submit', async (event) => {
           event.preventDefault();
       });

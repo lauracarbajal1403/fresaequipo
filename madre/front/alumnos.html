@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Modulos - English4U</title>
+    <title>Alumnos - English4U</title>
     <link rel="stylesheet" href="/front/public/css/main.css" />
   </head>
   <body>
@@ -24,7 +24,7 @@
       <nav class="main-sidebar">
         <ul class="sidebar-menu">
           <li><a href="/alumnos">Alumnos</a></li>
-          <li><a href="/profesores">Profesores</a></li>
+          <li><a href="/profes">Profesores</a></li>
           <li><a href="/grupos">Grupos</a></li>
           <li><a href="/modulos">Módulos</a></li>
           <li><a href="/inventario">Inventario</a></li>
@@ -41,31 +41,51 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Gestión de Modulos</h1>
-            <span> En esta sección encontrarás detalles de los niveles ofrecidos en English4U.</span>
+            <h1 class="m-0">Gestión de Alumnos</h1>
           </div>
         </div>
       </div>
     </div>
 
+    <div class="_custom-main-rows-container">
+        <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+          <input type="text" id="alumno" name="nombre-alumno" placeholder="Ej: Juan Pérez" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+            <a href="/buscaralumno" class="_custom-main-card-button" style="padding: 6px 12px; font-size: 14px; border-radius: 5px; display: inline-flex; align-items: center;">
+                Buscar Alumno
+            </a>
+          <button id="buscar">Buscar</button>
+    </div>
+    <div class="form-group" style="margin-bottom: 15px;">
+                <label for="estado">Estado:</label>
+                <select id="estado" name="estado" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                  <option value="">Selecciona un estado</option>
+                  <option value="Activo">Activo</option>
+                  <option value="Inactivo">Inactivo</option>
+                </select>
+    </div>
+
+
+
     <div class="_custom-main-container">
       <div class="_custom-main-rows-container">
         
         <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
-            <a href="/crudmodulo" class="_custom-main-card-button" style="padding: 6px 12px; font-size: 14px; border-radius: 5px; display: inline-flex; align-items: center;">
+            <a href="/crudalumno" class="_custom-main-card-button" style="padding: 6px 12px; font-size: 14px; border-radius: 5px; display: inline-flex; align-items: center;">
                 <img src="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" alt="Agregar" style="width:16px; height:16px; margin-right:5px;">
-                Agregar Nivel
+                Agregar Alumno
             </a>
         </div>
 
         <div class="_custom-main-table-container" style="margin-top: 30px;">
-          <h2>Listado de Modulos</h2>
-          <table border="1" cellpadding="10" cellspacing="0" width="100%", id ="tablaModulos">
+          <h2>Listado de Alumnos</h2>
+          <table border="1" cellpadding="10" cellspacing="0" width="100%", id ="tablaAlumnos">
             <thead>
               <tr>
-                <th>Nivel</th>
-                <th>Cantidad de libros</th>
-                <th>Detalles</th>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Profesor</th>
+                <th>Horario</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -75,20 +95,21 @@
         </div>
         <script>
           const API_URL = "https://fresaequipo-1.onrender.com"; 
-          async function cargarModulos() {
+          async function cargarAlumnos() {
             try {
-              const response = await fetch(`${API_URL}/modulos`);
+              const response = await fetch(`${API_URL}/alumnos`);
               const data = await response.json();
 
-              const tbody = document.querySelector("#tablaModulos tbody");
+              const tbody = document.querySelector("#tablaAlumnos tbody");
               tbody.innerHTML = ""; 
 
-              data.modulos.forEach(modulo => {
+              data.alumnos.forEach(alumno => {
                 const fila = document.createElement("tr");
                 fila.innerHTML = `
-                  <td>${modulo.nivel}</td>
-                  <td>${modulo.cantidad_libros}</td>
-                  <td>${modulo.detalles}</td>
+                  <td>${alumno.id}</td>
+                  <td>${alumno.nombre}</td>
+                  <td>${alumno.codpro}</td>
+                  <td>${alumno.horario}</td>
                 `;
                 fila.innerHTML += `
                     <button class="_custom-main-card-button btn-editar" 
@@ -110,16 +131,16 @@
                 // añadir listener SOLO al botón eliminar de esta fila
                 const btnEliminar = fila.querySelector(".btn-eliminar");
                 btnEliminar.addEventListener("click", async () => {
-                  const idModulo = btnEliminar.getAttribute("data-id");
-                  if (confirm("¿Seguro que quieres eliminar a este modulo?")) {
+                  const idAlumno = btnEliminar.getAttribute("data-id");
+                  if (confirm("¿Seguro que quieres eliminar a este alumno?")) {
                     try {
-                      const response = await fetch(`${API_URL}/eliminar_modulo/${idModulo}`, {
+                      const response = await fetch(`${API_URL}/eliminar_alumno/${idAlumno}`, {
                         method: "DELETE"
                       });
                       const data = await response.json();
 
                       if (response.ok) {
-                        alert("Profesor eliminado correctamente");
+                        alert("Alumno eliminado correctamente");
                         fila.remove(); // eliminamos solo la fila actual
                       } else {
                         alert(`Error: ${data.mensaje || response.statusText}`);
@@ -131,14 +152,45 @@
                 });
               });
             } catch (error) {
-              console.error("Error al cargar profesores:", error);
+              console.error("Error al cargar alumnos:", error);
             }
           }
 
           // ejecutar al cargar la página
-          window.onload = cargarProfesores;
+          window.onload = cargarAlumnos;
           </script>
+      <script>
+        document.getElementById('buscar').addEventListener('click', async () => {
+          const alumno = document.getElementById('alumno').value;
 
+          if (!alumno) {
+            alert('Selecciona un alumno');
+            return;
+          }
+
+          // Llama a tu API (ajusta la URL según tu backend)
+          const response = await fetch(`/buscaralumno/${alumno}`);
+          const data = await response.json();
+
+          console.log('Resultado:', data);
+        });
+        </script>
+        <script>
+        document.getElementById('estado').addEventListener('click', async () => {
+          const estado = document.getElementById('estado').value;
+
+          if (!estado) {
+            alert('Selecciona un estado');
+            return;
+          }
+
+          // Llama a tu API (ajusta la URL según tu backend)
+          const response = await fetch(`/buscarestado/${estado}`);
+          const data = await response.json();
+
+          console.log('Resultado:', data);
+        });
+        </script>
           
       </div>
     </div>
