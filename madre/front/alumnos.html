@@ -15,85 +15,88 @@
           alt="Logo English4U"
           class="header-logo"
         />
-
         <span class="header-title">English4U</span>
       </div>
     </header>
 
     <nav class="main-sidebar">
-      <nav class="main-sidebar">
-        <ul class="sidebar-menu">
-          <li><a href="/alumnos">Alumnos</a></li>
-          <li><a href="/profes">Profesores</a></li>
-          <li><a href="/grupos">Grupos</a></li>
-          <li><a href="/modulos">Módulos</a></li>
-          <li><a href="/inventario">Inventario</a></li>
-          <li><a href="/administracion">Administración</a></li>
-          <li><a href="/sesion">Cerrar sesion</a></li>
-        </ul>
-      </nav>
+      <ul class="sidebar-menu">
+        <li><a href="/alumnos">Alumnos</a></li>
+        <li><a href="/profes">Profesores</a></li>
+        <li><a href="/grupos">Grupos</a></li>
+        <li><a href="/modulos">Módulos</a></li>
+        <li><a href="/inventario">Inventario</a></li>
+        <li><a href="/administracion">Administración</a></li>
+        <li><a href="/sesion">Cerrar sesion</a></li>
+      </ul>
     </nav>
 
     <main class="main-content">
-      <h2>Modulos</h2>
+      <h2>Alumnos</h2>
       <div class="content-wrapper">
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Gestión de Alumnos</h1>
+        <div class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1 class="m-0">Gestión de Alumnos</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="_custom-main-rows-container">
+          <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+            <input type="text" id="alumno" name="nombre-alumno" placeholder="Ej: Juan Pérez" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+            <button id="buscar" class="_custom-main-card-button" style="padding: 6px 12px; font-size: 14px; border-radius: 5px; display: inline-flex; align-items: center;">
+              Buscar Alumno
+            </button>
+          </div>
+          
+          <div class="form-group" style="margin-bottom: 15px;">
+            <label for="estado">Estado:</label>
+            <select id="estado" name="estado" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+              <option value="">Selecciona un estado</option>
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
+          </div>
+
+          <div class="_custom-main-container">
+            <div class="_custom-main-rows-container">
+              
+              <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+                <a href="/crudalumnos" class="_custom-main-card-button" style="padding: 6px 12px; font-size: 14px; border-radius: 5px; display: inline-flex; align-items: center;">
+                  <img src="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" alt="Agregar" style="width:16px; height:16px; margin-right:5px;">
+                  Agregar Alumno
+                </a>
+              </div>
+
+              <div class="_custom-main-table-container" style="margin-top: 30px;">
+                <h2>Listado de Alumnos</h2>
+                <table border="1" cellpadding="10" cellspacing="0" width="100%" id="tablaAlumnos">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Nombre</th>
+                      <th>Profesor</th>
+                      <th>Horario</th>
+                      <th>Mensualidad</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Las filas se cargarán dinámicamente -->
+                  </tbody>
+                </table>
+              </div>
+              
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="_custom-main-rows-container">
-        <div style="display: flex; justify-content: center; margin-bottom: 10px;">
-          <input type="text" id="alumno" name="nombre-alumno" placeholder="Ej: Juan Pérez" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
-            <a href="/buscaralumno" class="_custom-main-card-button" style="padding: 6px 12px; font-size: 14px; border-radius: 5px; display: inline-flex; align-items: center;">
-                Buscar Alumno
-            </a>
-          <button id="buscar">Buscar</button>
-    </div>
-    <div class="form-group" style="margin-bottom: 15px;">
-                <label for="estado">Estado:</label>
-                <select id="estado" name="estado" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
-                  <option value="">Selecciona un estado</option>
-                  <option value="Activo">Activo</option>
-                  <option value="Inactivo">Inactivo</option>
-                </select>
-    </div>
-
-
-
-    <div class="_custom-main-container">
-      <div class="_custom-main-rows-container">
-        
-        <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
-            <a href="/crudalumno" class="_custom-main-card-button" style="padding: 6px 12px; font-size: 14px; border-radius: 5px; display: inline-flex; align-items: center;">
-                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" alt="Agregar" style="width:16px; height:16px; margin-right:5px;">
-                Agregar Alumno
-            </a>
-        </div>
-
-        <div class="_custom-main-table-container" style="margin-top: 30px;">
-          <h2>Listado de Alumnos</h2>
-          <table border="1" cellpadding="10" cellspacing="0" width="100%", id ="tablaAlumnos">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Profesor</th>
-                <th>Horario</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <script>
+    </main>
+    <script>
           const API_URL = "https://fresaequipo-1.onrender.com"; 
           async function cargarAlumnos() {
             try {
@@ -101,23 +104,25 @@
               const data = await response.json();
 
               const tbody = document.querySelector("#tablaAlumnos tbody");
-              tbody.innerHTML = ""; 
-
+              tbody.innerHTML = "";
+              console.log(data);
+              
               data.alumnos.forEach(alumno => {
                 const fila = document.createElement("tr");
                 fila.innerHTML = `
-                  <td>${alumno.id}</td>
+                  <td>${alumno.codigo}</td>
                   <td>${alumno.nombre}</td>
+                  <td>${alumno.nomina}</td>
                   <td>${alumno.codpro}</td>
                   <td>${alumno.horario}</td>
-                `;
-                fila.innerHTML += `
+                  <td>${alumno.estado}</td>
+                  <td>
                     <button class="_custom-main-card-button btn-editar" 
                             style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; margin-right: 5px;">
                       <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="Editar" style="width:14px; height:14px; margin-right:3px;">
                       Editar
                     </button>
-                    <button class="_custom-main-card-button btn-eliminar" data-id="${modulo.id}"
+                    <button class="_custom-main-card-button btn-eliminar" data-id="${alumno.codigo}"
                             style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; background-color: #e74c3c; color: white;">
                       <img src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="Eliminar" style="width:14px; height:14px; margin-right:3px;">
                       Eliminar
@@ -156,45 +161,8 @@
             }
           }
 
-          // ejecutar al cargar la página
           window.onload = cargarAlumnos;
-          </script>
-      <script>
-        document.getElementById('buscar').addEventListener('click', async () => {
-          const alumno = document.getElementById('alumno').value;
-
-          if (!alumno) {
-            alert('Selecciona un alumno');
-            return;
-          }
-
-          // Llama a tu API (ajusta la URL según tu backend)
-          const response = await fetch(`/buscaralumno/${alumno}`);
-          const data = await response.json();
-
-          console.log('Resultado:', data);
-        });
-        </script>
-        <script>
-        document.getElementById('estado').addEventListener('click', async () => {
-          const estado = document.getElementById('estado').value;
-
-          if (!estado) {
-            alert('Selecciona un estado');
-            return;
-          }
-
-          // Llama a tu API (ajusta la URL según tu backend)
-          const response = await fetch(`/buscarestado/${estado}`);
-          const data = await response.json();
-
-          console.log('Resultado:', data);
-        });
-        </script>
-          
-      </div>
-    </div>
-  </div>
-    </main>
+    </script>
+    
   </body>
 </html>

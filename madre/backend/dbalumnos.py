@@ -30,7 +30,7 @@ class dbalumnos:
             self.cursor = self.conn.cursor()
 
             # Sentencia SQL para insertar datos en la tabla
-            self.sql = "INSERT INTO alumnos (codigo, nomina, nombre, codpro, grupo) VALUES ( %s, %s, %s, %s, %s)"
+            self.sql = "INSERT INTO alumnos (id, nomina, nombre, profesor_id, horario, estado) VALUES ( %s, %s, %s, %s, %s, %s)"
 
             # Tupla con los datos que se insertarán
             self.datos = (
@@ -38,7 +38,8 @@ class dbalumnos:
                 alumno.nomina,
                 alumno.nombre,
                 alumno.codpro,
-                alumno.horario   # Nota: aquí se usa 'horario', pero la tabla usa 'grupo'; debe coincidir
+                alumno.horario,
+                alumno.estado
             )
 
             # Ejecuta la consulta y guarda los cambios
@@ -65,7 +66,7 @@ class dbalumnos:
             self.cursor = self.conn.cursor()
 
             # Sentencia SQL para actualizar campos del alumno
-            sql = "UPDATE alumnos SET nombre=%s, nomina=%s, codpro=%s, horario=%s WHERE codigo=%s"
+            sql = "UPDATE alumnos SET nombre=%s, nomina=%s, profesor_id=%s, horario=%s WHERE id=%s"
             datos = (alumno.nombre, alumno.nomina, alumno.codpro, alumno.horario, alumno.codigo)
 
             self.cursor.execute(sql, datos)
@@ -121,7 +122,7 @@ class dbalumnos:
             self.conn = self.con.open()
             self.cursor = self.conn.cursor()
 
-            sql = "SELECT codigo, nombre, nomina, codpro, horario FROM alumnos ORDER BY codigo DESC"
+            sql = "SELECT id, nombre, nomina, profesor_id, horario, estado FROM alumnos ORDER BY id DESC"
             self.cursor.execute(sql)
             rows = self.cursor.fetchall()
 
@@ -129,11 +130,12 @@ class dbalumnos:
             out = []
             for r in rows:
                 out.append({
-                    "codigo": r[0],
+                    "id": r[0],
                     "nombre": r[1],
                     "nomina": r[2],
                     "codpro": r[3],
                     "horario": r[4],
+                    "estado": r[5],
                 })
             return out
 
@@ -161,7 +163,7 @@ class dbalumnos:
         self.cursor = self.conn.cursor()
 
         # Consulta el último código insertado
-        self.sql = "SELECT max(codigo) as id FROM alumnos"
+        self.sql = "SELECT max(id) as id FROM alumnos"
         self.cursor.execute(self.sql)
         row = self.cursor.fetchone()
 

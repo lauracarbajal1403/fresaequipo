@@ -183,6 +183,7 @@ class Alumno(BaseModel):
     horario: str
     codpro: int
     nomina: int
+    estado: str
 
 class Profesor(BaseModel):
     perfil: str
@@ -215,6 +216,7 @@ def get_alumnos():
     - Fuente: db_alumnos.listar_alumnos().
     """
     most = db_alumnos.listar_alumnos()
+    print(most)
     return most
 
 @app.get("/buscaralumno")
@@ -233,28 +235,31 @@ def estado_alumno(estado: str = Path(...)):
     """
     alumno = db_alumnos.buscar_estado(estado)
     return alumno
-
-@app.post("/nuevo_alumno")
-def nuevo_alumno(
+@app.api_route("/nuevo_alumno", methods=["POST", "GET"])
+def agregar_alumno(
     nombre: str = Form(...),
+    codigo: int = Form(...),
     horario: str = Form(...),
-    nomina: int | None = Form(None),
-    codpro: int | None = Form(None),
+    codpro: int = Form(...),
+    nomina: int = Form(...),
+    estado: str = Form(...),
 ):
     """
-    Crea un alumno con datos mínimos (nombre, horario) y opcionales (nomina, codpro).
-    - Genera un objeto temporal con los atributos esperados por db_alumnos.nuevo_alumno.
-    - Retorna mensaje de confirmación y el código asignado (si lo gestiona la capa de datos).
+    Crea un alumno. (Nota: Form(...) requiere método POST en uso real del navegador).
+    - Recibe: nombre, contrasena, contacto, perfil, horario por form-data.
+    - Inserta vía db_alumnos.nuevo_alumno.
     """
-    a = Alumno(
-        nombre=nombre,
-        horario=horario,
-        nomina=nomina,
-        codpro=codpro
+    alumno = Alumno(
+        codigo = codigo,
+        nombre = nombre,
+        horario = horario,
+        codpro = codpro,
+        nomina = nomina,
+        estado = estado,
     )
+    db_alumnos.nuevo_alumno(alumno)
+    return {"mensaje": "Alumno agregado correctamente"}
 
-    db_alumnos.nuevo_alumno(a)
-    return {"mensaje": "Alumno creado", "codigo": a.codigo}
 
 @app.post("/editar_alumno/{codigo}")
 def editar_alumno(

@@ -59,13 +59,29 @@
 
               <div class="form-group" style="margin-bottom: 15px;", id="AlumnoForm">
                 <label for="id">ID:</label>
-                <input type="text" id="id" name="id" placeholder="Ej: 12345" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                <input type="text" id="codigo" name="codigo" placeholder="Ej: 12345" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
-                
+                <label for="profesor">Profesor:</label>
+                <input type="text" id="codpro" name="codpro" placeholder="Ej: Profesor" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                <div class="form-group" style="margin-bottom: 15px;">
+                  <label for="horario">Horario:</label>
+                  <select id="horario" name="horario" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                    <option value="">-- Selecciona un horario --</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                  <label for="estado">Estado:</label>
+                  <select id="estado" name="estado" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                  <option value="">Selecciona un estado</option>
+                  <option value="Activo">Activo</option>
+                  <option value="Inactivo">Inactivo</option>
+                  </select>
+                </div>
+                <label for="nomina">Mensualidad:</label>
+                <input type="text" id="nomina" name="nomina" placeholder="Ej: 800" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
               </div>
-              </div>
-            <!-- 
+            <!--
               <div class="form-group" style="margin-bottom: 15px;">
                 <label for="id">ID:</label>
                 <input type="text" id="id" name="id" maxlength="12" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;" placeholder="ID del Profesor">
@@ -75,47 +91,87 @@
                  <button type="submit" class="_custom-main-card-button" style="padding: 10px 20px; border-radius: 8px; border: 1px solid #ccc; display: inline-flex; align-items: center;">
                     Guardar
                 </button>
-                <div id="message" style="margin-top: 10px;"></div>
               </div>
-    <div id="message"></div>
+    <div id="mensajeExito" class="mensaje-exito" style="display: none;">
+      ✓ ¡Guardado exitosamente!
+    </div>
+      <style>
+        .mensaje-exito {
+          background-color: #d4edda;
+          color: #155724;
+          border: 1px solid #c3e6cb;
+          border-radius: 4px;
+          padding: 12px 20px;
+          margin: 10px 0;
+        }
+      </style>
+    <script>
+      const selectHorario = document.getElementById('horario');
+      const API_URL1 = 'https://fresaequipo-1.onrender.com'; 
+
+      async function cargarHorarios() {
+      try {
+        const response = await fetch(`${API_URL1}/horarios`);
+        const data = await response.json();
+                  
+        if(data.horarios.length > 0){
+          data.horarios.forEach(horario => {
+          const option = document.createElement('option');
+          option.value = horario;
+          option.textContent = horario;
+          selectHorario.appendChild(option);
+        });
+        } else {
+          const option = document.createElement('option');
+          option.value = '';
+          option.textContent = 'No hay horarios disponibles';
+          selectHorario.appendChild(option);
+        }
+        } catch (error) {
+          console.error('Error al cargar horarios:', error);
+          }
+        }
+
+      cargarHorarios();
+    </script>
     <script>
       const API_URL = "https://fresaequipo-1.onrender.com";
       const form = document.getElementById('AlumnoForm');
-        form.addEventListener('submit', async (event) => {
+      form.addEventListener('submit', async (event) => {
           event.preventDefault();
       });
       async function agregarAlumno(alumnoData) {
-          const messageElement = document.getElementById('message'); 
-          try {
-              const response = await fetch(`${API_URL}/nuevo_alumno`, {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify(alumnoData)
-              });
-
-              const data = await response.json();
-
-              if (response.ok) {
-                  if (data.mensaje === "Alumno agregado correctamente") {
-                      messageElement.textContent = "¡Alumno agregado correctamente!";
-                      messageElement.style.color = 'green';
-                  } else {
-                      messageElement.textContent = data.mensaje || "Error desconocido.";
-                      messageElement.style.color = 'red';
-                  }
-              } else {
-                  messageElement.textContent = `Error en el servidor (${response.status}): ${data.detail || response.statusText}`;
-                  messageElement.style.color = 'red';
-              }
-          } catch (error) {
+        const messageElement = document.getElementById('message'); 
+      try {
+        const response = await fetch(`${API_URL}/nuevo_alumno`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(alumnoData)
+        });
+        const data = await response.json();
+        
+        if (response.ok) {
+            if (data.mensaje === "Alumno agregado correctamente") {
+                setTimeout(function() {
+                  document.getElementById('mensajeExito').style.display = 'none';
+                }, 4000);
+            } else {
+                messageElement.textContent = data.mensaje || "Error desconocido.";
+                messageElement.style.color = 'red';
+            }
+            } else {
+                messageElement.textContent = `Error en el servidor (${response.status}): ${data.detail || response.statusText}`;
+                messageElement.style.color = 'red';
+            }
+            } catch (error) {
               console.error('Error de conexión:', error);
               messageElement.textContent = 'No se pudo conectar con el servidor de la API.';
               messageElement.style.color = 'red';
+            }
           }
-      }
-        </script>
+    </script>
             </form>
           </div>
         </div>

@@ -16,15 +16,17 @@ try:
     CREATE TABLE IF NOT EXISTS alumnos (
         id SERIAL PRIMARY KEY,
         nombre VARCHAR(150) NOT NULL,
-        colegiatura INT,
+        nomina INT,
         profesor_id INTEGER NOT NULL,
         horario VARCHAR(100) NOT NULL,
-        estadi VARCHAR(50) DEFAULT 'activo',
+        estado VARCHAR(50) DEFAULT 'activo',
         CONSTRAINT fk_profesor FOREIGN KEY (profesor_id)
             REFERENCES profesores(id) ON UPDATE CASCADE ON DELETE RESTRICT
     );
 
     ALTER SEQUENCE alumnos_id_seq RESTART WITH 1000;
+    ALTER TABLE alumnos ADD COLUMN IF NOT EXISTS nomina INT;
+    ALTER TABLE alumnos ADD COLUMN IF NOT EXISTS estado VARCHAR(50) DEFAULT 'activo';
     """
 
     cur.execute(sql)

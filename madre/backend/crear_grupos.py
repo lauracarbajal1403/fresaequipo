@@ -15,7 +15,11 @@ try:
     sql = """
     CREATE TABLE IF NOT EXISTS grupos (
         id SERIAL PRIMARY KEY,
-        horario VARCHAR(100) NOT NULL
+        horario VARCHAR(100) NOT NULL,
+        profesor VARCHAR(100) NOT NULL,
+        salon VARCHAR(50) NOT NULL
+        CONSTRAINT fk_profesor FOREIGN KEY (profesor_id)
+            REFERENCES profesores(id) ON UPDATE CASCADE ON DELETE RESTRICT
     );
     ALTER SEQUENCE grupos_id_seq RESTART WITH 14520;
     """
