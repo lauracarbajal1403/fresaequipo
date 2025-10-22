@@ -1,83 +1,124 @@
-@import "./app.css";
+/* =======================================
+ * 0. VARIABLES DE DISEÑO (IMPORTADAS) 🎨
+ * ======================================= */
+
+/* --- VARIABLES CSS CLAVE DE main.css --- */
+/* Se redefinen aquí para que index.css pueda usarlas sin depender de la carga externa */
+:root {
+    /* Colores base para el login */
+    --color-primary-dark: #34495e;     /* Usaremos el color del header como color principal */
+    --color-secondary-dark: #2c3e50;    /* Usaremos el color del sidebar */
+    --color-background-light: #ecf0f1; /* Color del fondo principal (similar a blanco/gris claro) */
+    --color-white: white;              /* Blanco puro */
+    
+    /* Colores específicos para el formulario de login */
+    --color-login-accent: var(--color-primary-dark); /* Color para acentos (bordes, botones) */
+    --color-login-shadow: rgba(0, 0, 0, 0.2); /* Sombra oscura */
+    --color-login-hover: #4a667f; /* Color de hover del sidebar */
+}
+
+
+/* =======================================
+ * 1. LAYOUT Y CONTENEDOR DE LOGIN 
+ * ======================================= */
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  background-color: var(--amarillo);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    /* Reemplaza --amarillo con el fondo claro del layout principal */
+    background-color: var(--color-background-light); 
 }
 
 .login-container {
-  display: flex;
-  flex-direction: column;
-  padding: 32px;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px var(--negro-transparencia);
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 12px;
-  background-color: var(--blanco);
-  min-width: 350px;
-  min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    border-radius: 16px;
+    /* Reemplaza --negro-transparencia */
+    box-shadow: 0 2px 8px var(--color-login-shadow); 
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 12px;
+    /* Reemplaza --blanco */
+    background-color: var(--color-white);
+    min-width: 350px;
+    min-height: 400px;
 }
 
+/* =======================================
+ * 2. COMPONENTES DEL FORMULARIO 
+ * ======================================= */
+
 .login-h1 {
-  font-size: 2rem;
+    font-size: 2rem;
+    color: var(--color-primary-dark); /* Color del título */
 }
 
 .login-h2 {
-  font-size: 1.5rem;
+    font-size: 1.5rem;
+    color: var(--color-secondary-dark); /* Color del subtítulo */
 }
 
 .login {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
 }
 
 .login-input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid var(--rosa);
-  border-radius: 16px;
+    width: 100%;
+    padding: 8px;
+    /* Reemplaza --rosa con el color de acento */
+    border: 1px solid var(--color-login-accent);
+    border-radius: 16px;
 }
 
 .login-input::placeholder{
-  color: var(--rosa);
-  opacity: .6;
+    /* Reemplaza --rosa */
+    color: var(--color-login-accent); 
+    opacity: .6;
 }
 
 .login-input:focus{
-  border-color: var(--negro-transparencia);
-  outline: none;
+    /* Usa un color de acento más oscuro o el mismo color */
+    border-color: var(--color-secondary-dark); 
+    outline: none;
 }
 
 .login-forgot-password {
-  text-decoration: none;
-  cursor: pointer;
+    text-decoration: none;
+    cursor: pointer;
+    color: var(--color-primary-dark);
 }
 
 .login-button {
-  color: var(--blanco);
-  width: fit-content;
-  padding: 8px;
-  border-radius: 16px;
-  border: 1px solid var(--rosa);
-  background-color: var(--rosa);
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
+    /* Reemplaza --blanco */
+    color: var(--color-white); 
+    width: fit-content;
+    padding: 8px;
+    border-radius: 16px;
+    /* Reemplaza --rosa */
+    border: 1px solid var(--color-login-accent); 
+    /* Reemplaza --rosa */
+    background-color: var(--color-login-accent); 
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
 .login-button:hover {
-  background-color: var(--rosa-transparencia);
+    /* Reemplaza --rosa-transparencia con el color de hover del sidebar */
+    background-color: var(--color-login-hover);
+    border-color: var(--color-login-hover);
 }
 
 .login-button:active {
-  transform: scale(0.90);
-  background-color: var(--rosa);
+    transform: scale(0.90);
+    /* Vuelve al color base al presionar */
+    background-color: var(--color-login-accent); 
 }
