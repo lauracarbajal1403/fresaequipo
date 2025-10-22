@@ -45,7 +45,7 @@ app.add_middleware(
 # ARCHIVOS ESTÁTICOS
 # ==============================
 # Sirve el front (HTML/CSS/JS) desde /front sin pasar por plantillas.
-current_dir = os.path.dirname(os.path.abspath(__file__)) # carpeta /back
+current_dir = os.path.dirname(os.path.abspath(__file__)) # ruta base del proyecto
 front_dir = os.path.join(current_dir, "..", "front")     # carpeta del front
 app.mount("/front", StaticFiles(directory=front_dir), name="front")
 
@@ -71,14 +71,25 @@ def read_home():
     home_file = os.path.join(current_dir, "..", "front", "home.html")
     with open(home_file, "r", encoding="utf-8") as f1:
         home = f1.read()
-    part1 = os.path.join(current_dir, "..", "front", "parte1.html")
-    part2 = os.path.join(current_dir, "..", "front", "parte2.html")
-    with open(part1, "r", encoding="utf-8") as f2:
-        part1 = f2.read()
-    with open(part2, "r", encoding="utf-8") as f3:
-        part2 = f3.read()
-    full_html = part1 + home + part2
-    return HTMLResponse(full_html)
+    return HTMLResponse(home)
+
+@app.get("/modulos", response_class=HTMLResponse)
+def read_modulos():
+    """
+    Renderiza modulos.html con header y footer.
+    """
+    modulos_file = os.path.join(current_dir, "..", "front", "modulos.html")
+    with open(modulos_file, "r", encoding="utf-8") as f1:
+        modulos = f1.read()
+    return HTMLResponse(modulos)
+
+@app.get("/sesion", response_class=HTMLResponse)
+def read_sesion():
+   
+    home_file = os.path.join(current_dir, "..", "front", "sesion.html")
+    with open(home_file, "r", encoding="utf-8") as f1:
+        home = f1.read()
+    return HTMLResponse(home)
 
 @app.get("/grupos", response_class=HTMLResponse)
 def read_grupos():
@@ -88,14 +99,8 @@ def read_grupos():
     grupos_file = os.path.join(current_dir, "..", "front", "grupos.html")
     with open(grupos_file, "r", encoding="utf-8") as f1:
         grupos = f1.read()
-    part1 = os.path.join(current_dir, "..", "front", "parte1.html")
-    part2 = os.path.join(current_dir, "..", "front", "parte2.html")
-    with open(part1, "r", encoding="utf-8") as f2:
-        part1 = f2.read()
-    with open(part2, "r", encoding="utf-8") as f3:
-        part2 = f3.read()
-    full_html = part1 + grupos + part2
-    return HTMLResponse(full_html)
+   
+    return HTMLResponse(grupos)
 
 @app.get("/crudgrupos", response_class=HTMLResponse)
 def read_crudgrupos():
@@ -105,14 +110,9 @@ def read_crudgrupos():
     grupos_file = os.path.join(current_dir, "..", "front", "crudgrupos.html")
     with open(grupos_file, "r", encoding="utf-8") as f1:
         grupos = f1.read()
-    part1 = os.path.join(current_dir, "..", "front", "parte1.html")
-    part2 = os.path.join(current_dir, "..", "front", "parte2.html")
-    with open(part1, "r", encoding="utf-8") as f2:
-        part1 = f2.read()
-    with open(part2, "r", encoding="utf-8") as f3:
-        part2 = f3.read()
-    full_html = part1 + grupos + part2
-    return HTMLResponse(full_html)
+    
+    
+    return HTMLResponse(grupos)
 
 @app.get("/profes", response_class=HTMLResponse)
 def read_profesores():
@@ -122,14 +122,8 @@ def read_profesores():
     home_file = os.path.join(current_dir, "..", "front", "profes.html")
     with open(home_file, "r", encoding="utf-8") as f1:
         home1 = f1.read()
-    part1 = os.path.join(current_dir, "..", "front", "parte1.html")
-    part2 = os.path.join(current_dir, "..", "front", "parte2.html")
-    with open(part1, "r", encoding="utf-8") as f2:
-        part1 = f2.read()
-    with open(part2, "r", encoding="utf-8") as f3:
-        part2 = f3.read()
-    full_html = part1 + home1 + part2
-    return HTMLResponse(full_html)
+    
+    return HTMLResponse(home1)
 
 @app.get("/crudprofe", response_class=HTMLResponse)
 def read_crudprofe():
@@ -139,15 +133,38 @@ def read_crudprofe():
     home_file = os.path.join(current_dir, "..", "front", "crudprofe.html")
     with open(home_file, "r", encoding="utf-8") as f1:
         home1 = f1.read()
-    part1 = os.path.join(current_dir, "..", "front", "parte1.html")
-    part2 = os.path.join(current_dir, "..", "front", "parte2.html")
-    with open(part1, "r", encoding="utf-8") as f2:
-        part1 = f2.read()
-    with open(part2, "r", encoding="utf-8") as f3:
-        part2 = f3.read()
-    full_html = part1 + home1 + part2
-    return HTMLResponse(full_html)
 
+    return HTMLResponse(home1)
+
+@app.get("/alumnos", response_class=HTMLResponse)
+def read_alumnos():
+    """
+    Renderiza alumnos.html con header y footer.
+    """
+    alumnos_file = os.path.join(current_dir, "..", "front", "alumnos.html")
+    with open(alumnos_file, "r", encoding="utf-8") as f1:
+        alumnos = f1.read()
+    return HTMLResponse(alumnos)
+
+@app.get("/crudalumnos", response_class=HTMLResponse)
+def read_crudalumnos():
+    """
+    Vista CRUD de alumnos con header y footer.
+    """
+    alumnos_file = os.path.join(current_dir, "..", "front", "crudalumnos.html")
+    with open(alumnos_file, "r", encoding="utf-8") as f1:
+        alumnos = f1.read()
+    return HTMLResponse(alumnos)
+
+@app.get("/crudmodulos", response_class=HTMLResponse)
+def read_crudmodulos(): 
+    """
+    Vista CRUD de módulos con header y footer.
+    """
+    modulos_file = os.path.join(current_dir, "..", "front", "crudmodulos.html")
+    with open(modulos_file, "r", encoding="utf-8") as f1:
+        modulos = f1.read()
+    return HTMLResponse(modulos)
 # ==============================
 # MODELOS (Pydantic)
 # ==============================
@@ -199,6 +216,23 @@ def get_alumnos():
     """
     most = db_alumnos.listar_alumnos()
     return most
+
+@app.get("/alumno/{codigo}")
+def get_alumno(codigo: int = Path(...)):
+    """
+    Obtiene un alumno por su código.
+    - Retorna objeto con datos del alumno.
+    """
+    alumno = db_alumnos.buscar_alumno(codigo)
+    return alumno
+
+@app.get("/estado_alumno")
+def estado_alumno(codigo: int):
+    """
+    Verifica si un alumno existe por su código.
+    """
+    alumno = db_alumnos.buscar_estado(codigo)
+    return alumno
 
 @app.post("/nuevo_alumno")
 def nuevo_alumno(

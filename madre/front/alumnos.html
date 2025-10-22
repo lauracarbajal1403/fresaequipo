@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Alumnos - English4U</title>
+    <title>Modulos - English4U</title>
     <link rel="stylesheet" href="/front/public/css/main.css" />
   </head>
   <body>
@@ -29,14 +29,120 @@
           <li><a href="/modulos">Módulos</a></li>
           <li><a href="/inventario">Inventario</a></li>
           <li><a href="/administracion">Administración</a></li>
-          <li><a href="/administracion">Cerrar sesion</a></li>
+          <li><a href="/sesion">Cerrar sesion</a></li>
         </ul>
       </nav>
     </nav>
 
     <main class="main-content">
-      <h2>Alumnos</h2>
-      <!-- CONTENIDO AQUI -->
+      <h2>Modulos</h2>
+      <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Gestión de Modulos</h1>
+            <span> En esta sección encontrarás detalles de los niveles ofrecidos en English4U.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="_custom-main-container">
+      <div class="_custom-main-rows-container">
+        
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+            <a href="/crudmodulo" class="_custom-main-card-button" style="padding: 6px 12px; font-size: 14px; border-radius: 5px; display: inline-flex; align-items: center;">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" alt="Agregar" style="width:16px; height:16px; margin-right:5px;">
+                Agregar Nivel
+            </a>
+        </div>
+
+        <div class="_custom-main-table-container" style="margin-top: 30px;">
+          <h2>Listado de Modulos</h2>
+          <table border="1" cellpadding="10" cellspacing="0" width="100%", id ="tablaModulos">
+            <thead>
+              <tr>
+                <th>Nivel</th>
+                <th>Cantidad de libros</th>
+                <th>Detalles</th>
+              </tr>
+            </thead>
+            <tbody>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <script>
+          const API_URL = "https://fresaequipo-1.onrender.com"; 
+          async function cargarModulos() {
+            try {
+              const response = await fetch(`${API_URL}/modulos`);
+              const data = await response.json();
+
+              const tbody = document.querySelector("#tablaModulos tbody");
+              tbody.innerHTML = ""; 
+
+              data.modulos.forEach(modulo => {
+                const fila = document.createElement("tr");
+                fila.innerHTML = `
+                  <td>${modulo.nivel}</td>
+                  <td>${modulo.cantidad_libros}</td>
+                  <td>${modulo.detalles}</td>
+                `;
+                fila.innerHTML += `
+                    <button class="_custom-main-card-button btn-editar" 
+                            style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; margin-right: 5px;">
+                      <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="Editar" style="width:14px; height:14px; margin-right:3px;">
+                      Editar
+                    </button>
+                    <button class="_custom-main-card-button btn-eliminar" data-id="${modulo.id}"
+                            style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; background-color: #e74c3c; color: white;">
+                      <img src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="Eliminar" style="width:14px; height:14px; margin-right:3px;">
+                      Eliminar
+                    </button>
+                  </td>
+                `;
+                
+                // agregar la fila
+                tbody.appendChild(fila);
+
+                // añadir listener SOLO al botón eliminar de esta fila
+                const btnEliminar = fila.querySelector(".btn-eliminar");
+                btnEliminar.addEventListener("click", async () => {
+                  const idModulo = btnEliminar.getAttribute("data-id");
+                  if (confirm("¿Seguro que quieres eliminar a este modulo?")) {
+                    try {
+                      const response = await fetch(`${API_URL}/eliminar_modulo/${idModulo}`, {
+                        method: "DELETE"
+                      });
+                      const data = await response.json();
+
+                      if (response.ok) {
+                        alert("Profesor eliminado correctamente");
+                        fila.remove(); // eliminamos solo la fila actual
+                      } else {
+                        alert(`Error: ${data.mensaje || response.statusText}`);
+                      }
+                    } catch (error) {
+                      console.error("Error al eliminar:", error);
+                    }
+                  }
+                });
+              });
+            } catch (error) {
+              console.error("Error al cargar profesores:", error);
+            }
+          }
+
+          // ejecutar al cargar la página
+          window.onload = cargarProfesores;
+          </script>
+
+          
+      </div>
+    </div>
+  </div>
     </main>
   </body>
 </html>

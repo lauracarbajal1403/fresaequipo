@@ -8,7 +8,7 @@
 
 import psycopg2           # Librería para conectarse y ejecutar consultas en PostgreSQL
 import conexion as con     # Módulo personalizado que gestiona la conexión a la base de datos
-
+import datetime
 
 class dbalumnos:
     """
@@ -202,7 +202,11 @@ class dbalumnos:
             print(f"Error al buscar alumno: {e}")
             return None
         return alumno
-    
+    # ---------------------------------------------------
+    # MÉTODO: buscar_alumno
+    # DESCRIPCIÓN: Busca un alumno por su estado.
+    # RETORNA: objeto alumno o None si no se encuentra.
+    # ---------------------------------------------------
     def buscar_estado(self, alumno):
         try:
             self.con = con.conexion()
@@ -221,4 +225,26 @@ class dbalumnos:
                 self.conn.close()
             return None
 
-        
+    def mensualidades(self, alumno):
+        try:
+            self.con = con.conexion()
+            self.conn = self.con.open()
+            self.cursor1=self.conn.cursor()
+            auxi=None
+            self.sql = "SELECT * FROM alumnos WHERE mensualidades = %s"
+            self.cursor1.execute(self.sql, (alumno.mensualidades,))
+            row = self.cursor1.fetchone()
+            self.conn.commit()
+            self.conn.close()
+            print("wow")
+            if row[1] is not None:
+                print("ok")
+                alumno.setid(row[0])
+                alumno.setnombre(row[1])
+                alumno.setnomina(row[2])
+                alumno.setcodpro(row[3])
+                alumno.sethorario(row[4])
+        except Exception as e:
+            print(f"Error al buscar alumno: {e}")
+            return None
+        return alumno 
