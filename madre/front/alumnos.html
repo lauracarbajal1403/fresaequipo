@@ -100,7 +100,7 @@
           const API_URL = "https://fresaequipo-1.onrender.com"; 
           async function cargarAlumnos() {
             try {
-              const response = await fetch(`${API_URL}/alumnos`);
+              const response = await fetch(`${API_URL}/alumnosobtener`);
               const data = await response.json();
 
               const tbody = document.querySelector("#tablaAlumnos tbody");

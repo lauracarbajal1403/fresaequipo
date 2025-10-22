@@ -142,13 +142,7 @@ class dbalumnos:
         except psycopg2.Error as e:
             print(f"Error al listar alumnos: {e}")
             raise
-
-        finally:
-            try:
-                self.cursor.close()
-                self.conn.close()
-            except Exception:
-                pass
+        
 
 
     # ---------------------------------------------------

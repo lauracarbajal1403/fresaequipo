@@ -209,15 +209,41 @@ def agregar_grupo(horario: str = Form(...)):
 # ==============================
 # ENDPOINTS: ALUMNOS
 # ==============================
-@app.get("/alumnos")
+@app.get("/alumnosobtener")
 def get_alumnos():
     """
     Lista todos los alumnos (devuelve arreglo de objetos).
     - Fuente: db_alumnos.listar_alumnos().
-    """
-    most = db_alumnos.listar_alumnos()
-    print(most)
-    return most
+ """
+    try:
+        con = conexion()
+        conn = con.open()
+        cursor = conn.cursor()
+
+        sql = "SELECT id, nombre, nomina, profesor_id, horario, estado FROM alumnos ORDER BY id DESC"
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+
+        alumnos = []
+        for r in rows:
+            alumnos.append({
+                "codigo": r[0],
+                    "nombre": r[1],
+                    "nomina": r[2],
+                    "codpro": r[3],
+                    "horario": r[4],
+                    "estado": r[5],
+            })
+            
+        return  {"alumnos": alumnos}
+    except Exception as e:
+            return {"error": str(e)}
+    finally:
+            try:
+                cursor.close()
+                conn.close()
+            except Exception:
+                pass
 
 @app.get("/buscaralumno")
 def get_alumno(nombre: str = Path(...)):
