@@ -47,7 +47,7 @@
         <div class="_custom-main-rows-container">
           <div style="display: flex; justify-content: center; margin-bottom: 10px;">
             <input type="text" id="alumno" name="nombre-alumno" placeholder="Ej: Juan Pérez" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
-            <button id="buscar" class="_custom-main-card-button" style="padding: 6px 12px; font-size: 14px; border-radius: 5px; display: inline-flex; align-items: center;">
+            <button onclick="buscarAlumnos()" id="buscar" class="_custom-main-card-button" style="padding: 6px 12px; font-size: 14px; border-radius: 5px; display: inline-flex; align-items: center;">
               Buscar Alumno
             </button>
           </div>
@@ -96,6 +96,7 @@
         </div>
       </div>
     </main>
+    
     <script>
           const API_URL = "https://fresaequipo-1.onrender.com"; 
           async function cargarAlumnos() {
@@ -162,6 +163,77 @@
           }
 
           window.onload = cargarAlumnos;
+          async function buscarAlumnos() {
+            try {
+              const response = await fetch(`${API_URL}/buscar_alumno`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  nombre: document.getElementById("alumno").value,
+                  estado: document.getElementById("estado").value
+                })
+              });
+              const data = await response.json();
+
+              const tbody = document.querySelector("#tablaAlumnos tbody");
+              tbody.innerHTML = "";
+              console.log(data);
+              
+              data.alumnos.forEach(alumno => {
+                const fila = document.createElement("tr");
+                fila.innerHTML = `
+                  <td>${alumno.codigo}</td>
+                  <td>${alumno.nombre}</td>
+                  <td>${alumno.nomina}</td>
+                  <td>${alumno.codpro}</td>
+                  <td>${alumno.horario}</td>
+                  <td>${alumno.estado}</td>
+                  <td>
+                    <button class="_custom-main-card-button btn-editar" 
+                            style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; margin-right: 5px;">
+                      <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="Editar" style="width:14px; height:14px; margin-right:3px;">
+                      Editar
+                    </button>
+                    <button class="_custom-main-card-button btn-eliminar" data-id="${alumno.codigo}"
+                            style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; background-color: #e74c3c; color: white;">
+                      <img src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="Eliminar" style="width:14px; height:14px; margin-right:3px;">
+                      Eliminar
+                    </button>
+                  </td>
+                `;
+                
+                // agregar la fila
+                tbody.appendChild(fila);
+
+                // añadir listener SOLO al botón eliminar de esta fila
+                const btnEliminar = fila.querySelector(".btn-eliminar");
+                btnEliminar.addEventListener("click", async () => {
+                  const idAlumno = btnEliminar.getAttribute("data-id");
+                  if (confirm("¿Seguro que quieres eliminar a este alumno?")) {
+                    try {
+                      const response = await fetch(`${API_URL}/eliminar_alumno/${idAlumno}`, {
+                        method: "DELETE"
+                      });
+                      const data = await response.json();
+
+                      if (response.ok) {
+                        alert("Alumno eliminado correctamente");
+                        fila.remove(); // eliminamos solo la fila actual
+                      } else {
+                        alert(`Error: ${data.mensaje || response.statusText}`);
+                      }
+                    } catch (error) {
+                      console.error("Error al eliminar:", error);
+                    }
+                  }
+                });
+              });
+            } catch (error) {
+              console.error("Error al cargar alumnos:", error);
+            }
+          }
     </script>
     
   </body>

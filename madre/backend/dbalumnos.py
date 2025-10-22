@@ -95,7 +95,7 @@ class dbalumnos:
             self.conn = self.con.open()
             self.cursor = self.conn.cursor()
 
-            sql = "DELETE FROM alumnos WHERE codigo=%s"
+            sql = "DELETE FROM alumnos WHERE id=%s"
             self.cursor.execute(sql, (codigo,))
             self.conn.commit()
 
