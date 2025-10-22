@@ -78,7 +78,7 @@
           const API_URL = "https://fresaequipo-1.onrender.com"; 
           async function cargarModulos() {
             try {
-              const response = await fetch(`${API_URL}/modulos`);
+              const response = await fetch(`${API_URL}/modulosobtener`);
               const data = await response.json();
 
               const tbody = document.querySelector("#tablaModulos tbody");

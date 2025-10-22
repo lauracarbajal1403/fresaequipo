@@ -112,40 +112,6 @@ class dbalumnos:
 
 
     # ---------------------------------------------------
-    # MÉTODO: listar_alumnos
-    # DESCRIPCIÓN: Devuelve una lista con todos los alumnos registrados.
-    # RETORNA: lista de diccionarios con los datos de cada alumno.
-    # ---------------------------------------------------
-    def listar_alumnos(self):
-        try:
-            self.con = con.conexion()
-            self.conn = self.con.open()
-            self.cursor = self.conn.cursor()
-
-            sql = "SELECT id, nombre, nomina, profesor_id, horario, estado FROM alumnos ORDER BY id DESC"
-            self.cursor.execute(sql)
-            rows = self.cursor.fetchall()
-
-            # Convierte cada fila en un diccionario para fácil acceso en JSON o frontend
-            out = []
-            for r in rows:
-                out.append({
-                    "id": r[0],
-                    "nombre": r[1],
-                    "nomina": r[2],
-                    "codpro": r[3],
-                    "horario": r[4],
-                    "estado": r[5],
-                })
-            return out
-
-        except psycopg2.Error as e:
-            print(f"Error al listar alumnos: {e}")
-            raise
-        
-
-
-    # ---------------------------------------------------
     # MÉTODO: getid_alumno
     # DESCRIPCIÓN: Obtiene el siguiente ID disponible para insertar un nuevo alumno.
     # RETORNA: entero (el siguiente código disponible).
@@ -194,6 +160,7 @@ class dbalumnos:
                 alumno.setnomina(row[2])
                 alumno.setcodpro(row[3])
                 alumno.sethorario(row[4])
+                alumno.setestado(row[5])
         except Exception as e:
             print(f"Error al buscar alumno: {e}")
             return None

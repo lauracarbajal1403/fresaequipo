@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from conexion import conexion
+from dbmodulos import dbmodulos
 import os
 
 # ==============================
@@ -19,6 +20,7 @@ app = FastAPI()
 # INSTANCIAS DE CAPA DE DATOS
 # ==============================
 # Cada clase (db_*) encapsula operaciones CRUD hacia PostgreSQL.
+db_modulos = dbmodulos()
 db_grupos = dbgrupos()
 db_alumnos = dbalumnos()
 db_profesores = dbprofesores()
@@ -192,6 +194,10 @@ class Profesor(BaseModel):
     contrasenia: str
     contacto: int
 
+class Modulo(BaseModel):
+    nivel: str
+    detalles: str
+    libros: int
 # ==============================
 # ENDPOINTS: GRUPOS
 # ==============================
@@ -450,3 +456,89 @@ def obtener_gruposver():
             conn.close()
         except Exception:
             pass
+
+# ==============================
+# ENDPOINTS: Modulos
+# ==============================
+@app.post("/nuevo_modulo")
+def agregar_modulo(
+    nivel: str = Form(...),
+    detalles: str = Form(...),
+    libros: int = Form(...),
+):
+    """
+    Crea un nuevo módulo (campos: nivel, detalles, libros).
+    - Recibe: 'nivel', 'detalles', 'libros' via form-data.
+    - Llama a capa de datos (db_modulos.nuevo_modulo).
+    """
+    modulo = Modulo(
+        nivel=nivel,
+        detalles=detalles,
+        libros=libros,
+    )
+    db_modulos.nuevo_modulo(modulo)
+    return {"mensaje": "Módulo agregado correctamente"}
+@app.get("/modulosobtener")
+def get_modulos():
+    """
+    Lista todos los módulos (devuelve arreglo de objetos).
+    - Fuente: db_modulos.listar_modulos().
+ """
+    try:
+        con = conexion()
+        conn = con.open()
+        cursor = conn.cursor()
+
+        sql = "SELECT nivel, detalles, libros FROM modulos ORDER BY nivel DESC"
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+
+        modulos = []
+        for r in rows:
+            modulos.append({
+                "nivel": r[0],
+                    "detalles": r[1],
+                    "libros": r[2],
+            })
+            
+        return  {"modulos": modulos}
+    except Exception as e:
+            return {"error": str(e)}
+    finally:
+            try:
+                cursor.close()
+                conn.close()
+            except Exception:
+                pass    
+@app.get("/buscarmodulo")
+def get_modulo(nivel: str = Path(...)):
+    """
+    Obtiene un módulo por su nivel.
+    - Retorna objeto con datos del módulo.
+    """
+    modulo = db_modulos.buscar_modulo(nivel)
+    return modulo   
+@app.post("/editar_modulo/{nivel}")
+def editar_modulo(
+    nivel: str,
+    detalles: str = Form(...),
+    libros: int | None = Form(None),
+):
+    """
+    Actualiza un módulo existente (identificado por 'nivel').
+    - Recibe campos por form-data y delega edición a db_modulos.editar_modulo.
+    """
+    class M: pass
+    m = M()
+    m.nivel = nivel
+    m.detalles = detalles
+    m.libros = libros
+    db_modulos.editar_modulo(m)
+    return {"mensaje": "Módulo actualizado"}
+@app.delete("/eliminar_modulo/{nivel}")
+def eliminar_modulo(nivel: str):
+    """
+    Elimina un módulo por 'nivel'.
+    """
+    db_modulos.eliminar_modulo(nivel)
+    return {"mensaje": "Módulo eliminado"}
