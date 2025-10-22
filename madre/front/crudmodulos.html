@@ -1,16 +1,42 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Agregar Módulo</title>
-  <link rel="stylesheet" href="/front/public/css/index.css">
-  <link rel="stylesheet" href="/front/public/css/app.css">
-</head>
-<body>
-  <object type="text/html" data="/parte1" width="device-width" height="1"></object>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home - English4U</title>
+    <link rel="stylesheet" href="/front/public/css/home.css" />
+    <link rel="stylesheet" href="/front/public/css/main.css" />
+  </head>
+  <body>
 
-  <div class="content-wrapper">
+    <header class="main-header">
+      <div class="header-content">
+        <img
+          src="/front/public/assets/logo.png"
+          alt="Logo English4U"
+          class="header-logo"
+        />
+
+        <span class="header-title">English4U</span>
+      </div>
+    </header>
+
+    <nav class="main-sidebar">
+      <nav class="main-sidebar">
+        <ul class="sidebar-menu">
+          <li><a href="/alumnos">Alumnos</a></li>
+          <li><a href="/profes">Profesores</a></li>
+          <li><a href="/grupos">Grupos</a></li>
+          <li><a href="/modulos">Módulos</a></li>
+          <li><a href="/inventario">Inventario</a></li>
+          <li><a href="/administracion">Administración</a></li>
+          <li><a href="/sesion">Cerrar sesion</a></li>
+        </ul>
+      </nav>
+    </nav>
+
+    <main class="main-content">
+      <div class="content-wrapper">
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -93,7 +119,6 @@
       </div>
     </div>
   </div>
-
-  <object type="text/html" data="/parte2" width="device-width" height="1"></object>
-</body>
+    </main>
+  </body>
 </html>
