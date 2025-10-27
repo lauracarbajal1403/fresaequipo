@@ -374,14 +374,12 @@
         function cerrarModalPago() {
           document.getElementById('pago').style.display = 'none';
         }
+        const btnpago = fila.querySelector('.btnpago');
+        if (btnpago) {
+          btnpago.addEventListener('click', () => abrirModalPago(alumno));
+        }
         async function registrarPago(idAlumno) {
-        try {
-          const response = await fetch(`${API_URL}/registrar_pago/${idAlumno}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-          });
-          
-          if (response.ok) {
+       
             alert('Pago registrado correctamente');
             
             // Ocultar el icono de alerta del botón específico
@@ -392,16 +390,9 @@
                 iconoAlerta.style.display = 'none';
               }
             }
-          } else {
-            const data = await response.json();
-            alert(`Error: ${data.mensaje || response.statusText}`);
-          }
-        } catch (error) {
-          console.error('Error al registrar pago:', error);
-          alert('Error al registrar el pago');
-        }
+          
       }
-      }
+      
 
       
       async function cargarAlumnos() {
