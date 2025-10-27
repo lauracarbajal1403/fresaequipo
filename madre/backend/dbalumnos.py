@@ -177,45 +177,50 @@ class dbalumnos:
             if self.conn:
                 self.conn.close()
             return []
-    # ---------------------------------------------------
-    # MÉTODO: buscar_alumno
-    # DESCRIPCIÓN: Busca un alumno por su estado.
-    # RETORNA: objeto alumno o None si no se encuentra.
-    # ---------------------------------------------------
-    def buscar_inactivo(self, alumno):
-        try:
-            self.con = con.conexion()
-            self.conn = self.con.open()
-            self.cursor1=self.conn.cursor()
-            auxi=None
-            self.sql = "SELECT * FROM alumnos WHERE estado = 'inactivo'"
-            self.cursor1.execute(self.sql, (alumno.estado,))
-            row = self.cursor1.fetchone()
-            
-            self.conn.commit()
-            return row
-        except Exception as e:
-            print(f"Error al buscar alumno: {e}")
-            if self.conn:
-                self.conn.close()
-            return None
-    def buscar_estado(self, alumno):
-        try:
-            self.con = con.conexion()
-            self.conn = self.con.open()
-            self.cursor1=self.conn.cursor()
-            auxi=None
-            self.sql = "SELECT * FROM alumnos WHERE estado = 'activo'"
-            self.cursor1.execute(self.sql, (alumno.estado,))
-            row = self.cursor1.fetchone()
-            
-            self.conn.commit()
-            return row
-        except Exception as e:
-            print(f"Error al buscar alumno: {e}")
-            if self.conn:
-                self.conn.close()
-            return None
+
+
+# ========================================
+# MÉTODO EN LA CLASE DE BASE DE DATOS
+# ========================================
+def buscar_estado(self, estado):
+    """
+    Busca todos los alumnos con un estado específico.
+    
+    Args:
+        estado (str): Estado a buscar ('Activo' o 'Inactivo')
+    
+    Returns:
+        list: Lista de diccionarios con los datos de los alumnos
+    """
+    try:
+        self.con = con.conexion()
+        self.conn = self.con.open()
+        self.cursor1 = self.conn.cursor()
+        
+        self.sql = "SELECT * FROM alumnos WHERE estado = %s"
+       
+        self.cursor1.execute(self.sql, (estado,))
+        
+        rows = self.cursor1.fetchall()
+        
+       
+        column_names = [desc[0] for desc in self.cursor1.description]
+        
+        
+        alumnos = []
+        for row in rows:
+            alumno_dict = dict(zip(column_names, row))
+            alumnos.append(alumno_dict)
+        
+        self.conn.close()
+        return alumnos
+        
+    except Exception as e:
+        print(f"Error al buscar alumno por estado: {e}")
+        if self.conn:
+            self.conn.close()
+        return None
+
 
     def mensualidades(self, alumno):
         try:

@@ -285,17 +285,15 @@ def get_alumno(nombre: str = None):
 @app.get("/buscarestado")
 def estado_alumno(estado: str = Query(...)):
     """
-    Verifica si un alumno existe por su estado.
+    Busca alumnos por su estado (Activo/Inactivo).
     """
-    alumno = db_alumnos.buscar_estado(estado)
-    return alumno
-@app.get("/buscarinactivo")
-def inactivo_alumno(estado: str = Path(...)):
-    """
-    Verifica si un alumno existe por su estado.
-    """
-    alumno = db_alumnos.buscar_inactivo(estado)
-    return alumno
+    alumnos = db_alumnos.buscar_estado(estado)
+    
+    if alumnos is None:
+        return {"ok": False, "mensaje": "Error al buscar alumnos"}
+    
+    return {"ok": True, "alumnos": alumnos}
+
 @app.api_route("/nuevo_alumno", methods=["POST", "GET"])
 def agregar_alumno(
     nombre: str = Form(...),
@@ -321,7 +319,17 @@ def agregar_alumno(
     db_alumnos.nuevo_alumno(alumno)
     return {"mensaje": "Alumno agregado correctamente"}
 
-
+@app.api_route("/registrar_pago/{codigo}", methods=["POST", "GET"])
+def registrar_pago(
+    codigo: int = Path(...),
+):
+    """
+    Registra el pago de un alumno cambiando su estado a 'activo'.
+    - Recibe: codigo del alumno por path.
+    - Actualiza vía db_alumnos.registrar_pago.
+    """
+    db_alumnos.registrar_pago(codigo)
+    return {"mensaje": "Pago registrado, estado actualizado a 'activo'"}
 @app.post("/editar_alumno/{codigo}")
 def editar_alumno(
     codigo: int,

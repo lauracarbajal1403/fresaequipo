@@ -171,11 +171,39 @@
           </div>
         </div>
       </div>
+      <div id="pago" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.4); align-items:center; justify-content:center; z-index:9999;">
+      <div style="background:#fff; padding:20px; border-radius:10px; width:100%; max-width:720px;">
+        <h3 style="margin:0 0 10px 0">Pago de <span id="c_nombre"></span> (ID: <span id="c_id"></span>)</h3>
+        <div style="max-height:55vh; overflow:auto; border:1px solid #eee; border-radius:8px;">
+          <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse:collapse;" id="tablaPago">
+            <thead style="position:sticky; top:0; background:#fafafa;">
+              <tr>
+                <th style="text-align:left; border-bottom:1px solid #ddd;">Fecha</th>
+                <th style="text-align:left; border-bottom:1px solid #ddd;">Monto</th>
+                <th style="text-align:left; border-bottom:1px solid #ddd;">Método de pago</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <div style="display:flex; gap:10px;">
+            <button type="button" id="btnCancelarCalif" class="_custom-main-card-button" style="background:#eee;">Cerrar</button>
+            <button type="button" id="btnGuardarCalif" class="_custom-main-card-button">Guardar</button>
+          </div>
+        </div>
     </div>
     <script>
       const API_URL = "https://fresaequipo-1.onrender.com";
 
-      
+      function abrirModalPago(alumno) {
+        const modal = document.getElementById('modalEditar');
+        document.getElementById('e_codigo').value  = alumno.codigo;
+        document.getElementById('e_nombre').value  = alumno.nombre ?? '';
+        modal.style.display = 'flex';
+      }
+
+      function cerrarModalPago() {
+        document.getElementById('modalEditar').style.display = 'none';
+      }
       function abrirModalEditar(alumno) {
         const modal = document.getElementById('modalEditar');
         document.getElementById('e_codigo').value  = alumno.codigo;
