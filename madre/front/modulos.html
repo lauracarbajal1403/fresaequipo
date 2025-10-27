@@ -114,11 +114,12 @@
           function cerrarModalEditar() {
                   document.getElementById('modalEditar').style.display = 'none';
                 }
+          
           const btnEditar = fila.querySelector('.btn-editar');
             if (btnEditar) {
               btnEditar.addEventListener('click', () => abrirModalEditar(alumno));
             }
-
+        
           async function cargarModulos() {
             try {
               const response = await fetch(`${API_URL}/modulosobtener`);
