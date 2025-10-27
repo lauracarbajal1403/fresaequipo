@@ -57,26 +57,25 @@
               
               
 
-              <div class="form-group" style="margin-bottom: 15px;", id="HorarioForm">
-                <label for="horario">Horario:</label>
-                <input type="text" id="horario" name="horario" placeholder="Ej: Lunes 10:00 - 12:00" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
-              </div>
-            <!-- 
               <div class="form-group" style="margin-bottom: 15px;">
-                <label for="id">ID:</label>
-                <input type="text" id="id" name="id" maxlength="12" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;" placeholder="ID del Profesor">
+                <label for="nivel">Nivel:</label>
+                <input type="text" id="nivel" name="nivel" placeholder="Ej: Lunes 10:00 - 12:00" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                <label for="libros">Cantidad de libros:</label>
+                <input type="text" id="libros" name="libros" placeholder="Ej: 5" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                <label for="detalles">Detalles:</label>
+                <input type="text" id="detalles" name="detalles" placeholder="Ej: Lunes 10:00 - 12:00" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px;">
               </div>
-            -->
+
               <div style="text-align: center; margin-top: 20px;">
                  <button type="submit" class="_custom-main-card-button" style="padding: 10px 20px; border-radius: 8px; border: 1px solid #ccc; display: inline-flex; align-items: center;">
                     Guardar
                 </button>
                 <div id="message" style="margin-top: 10px;"></div>
-              </div>
+                </div>
     <div id="message"></div>
     <script>
       const API_URL = "https://fresaequipo-1.onrender.com";
-      const form = document.getElementById('HorarioForm');
+      const form = document.getElementById('NivelForm');
         form.addEventListener('submit', async (event) => {
           event.preventDefault();
       });

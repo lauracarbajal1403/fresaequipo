@@ -96,73 +96,449 @@
         </div>
       </div>
     </main>
+    <!-- ===================== -->
+    <!--  MODAL: EDITAR ALUMNO -->
+    <!-- ===================== -->
+    <div id="modalEditar" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.4); align-items:center; justify-content:center; z-index:9999;">
+      <div style="background:#fff; padding:20px; border-radius:10px; width:100%; max-width:520px;">
+        <h3 style="margin-top:0;">Editar alumno</h3>
+        <form id="formEditar">
+          <input type="hidden" id="e_codigo">
+
+          <div style="margin-bottom:10px;">
+            <label>Nombre</label>
+            <input id="e_nombre" type="text" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px;">
+          </div>
+
+          <div style="margin-bottom:10px;">
+            <label>Horario</label>
+            <input id="e_horario" type="text" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px;">
+          </div>
+
+          <div style="margin-bottom:10px;">
+            <label>Nómina (opcional)</label>
+            <input id="e_nomina" type="number" step="1" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px;">
+          </div>
+
+          <div style="margin-bottom:10px;">
+            <label>Profesor (codpro)</label>
+            <input id="e_codpro" type="number" step="1" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px;">
+          </div>
+
+          <!-- Si también quieres editar estado, descomenta: -->
+          <!--
+          <div style="margin-bottom:10px;">
+            <label>Estado</label>
+            <select id="e_estado" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px;">
+              <option value="">-- sin cambios --</option>
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
+          </div>
+          -->
+
+          <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:10px;">
+            <button type="button" id="btnCancelarEdit" class="_custom-main-card-button" style="background:#eee;">Cancelar</button>
+            <button type="submit" class="_custom-main-card-button">Guardar cambios</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ============================ -->
+    <!--  MODAL: CALIFICACIONES ALUMNO -->
+    <!-- ============================ -->
+    <div id="modalCalif" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.4); align-items:center; justify-content:center; z-index:9999;">
+      <div style="background:#fff; padding:20px; border-radius:10px; width:100%; max-width:720px;">
+        <h3 style="margin:0 0 10px 0">Calificaciones de <span id="c_nombre"></span> (ID: <span id="c_id"></span>)</h3>
+        <div style="max-height:55vh; overflow:auto; border:1px solid #eee; border-radius:8px;">
+          <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse:collapse;" id="tablaCalif">
+            <thead style="position:sticky; top:0; background:#fafafa;">
+              <tr>
+                <th style="text-align:left; border-bottom:1px solid #ddd;">Módulo</th>
+                <th style="text-align:left; border-bottom:1px solid #ddd;">Calificación (0-100)</th>
+                <th style="text-align:left; border-bottom:1px solid #ddd;">Observaciones</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center;">
+          <div><strong>Promedio:</strong> <span id="promedioSpan">—</span></div>
+          <div style="display:flex; gap:10px;">
+            <button type="button" id="btnCancelarCalif" class="_custom-main-card-button" style="background:#eee;">Cerrar</button>
+            <button type="button" id="btnGuardarCalif" class="_custom-main-card-button">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <script>
-          const API_URL = "https://fresaequipo-1.onrender.com"; 
-          async function cargarAlumnos() {
-            try {
-              const response = await fetch(`${API_URL}/alumnosobtener`);
-              const data = await response.json();
+      const API_URL = "https://fresaequipo-1.onrender.com";
 
-              const tbody = document.querySelector("#tablaAlumnos tbody");
-              tbody.innerHTML = "";
-              console.log(data);
-              
-              data.alumnos.forEach(alumno => {
-                const fila = document.createElement("tr");
-                fila.innerHTML = `
-                  <td>${alumno.codigo}</td>
-                  <td>${alumno.nombre}</td>
-                  <td>${alumno.nomina}</td>
-                  <td>${alumno.codpro}</td>
-                  <td>${alumno.horario}</td>
-                  <td>${alumno.estado}</td>
-                  <td>
-                    <button class="_custom-main-card-button btn-editar" 
-                            style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; margin-right: 5px;">
-                      <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="Editar" style="width:14px; height:14px; margin-right:3px;">
-                      Editar
-                    </button>
-                    <button class="_custom-main-card-button btn-eliminar" data-id="${alumno.codigo}"
-                            style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; background-color: #e74c3c; color: white;">
-                      <img src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="Eliminar" style="width:14px; height:14px; margin-right:3px;">
-                      Eliminar
-                    </button>
-                  </td>
-                `;
-                
-                // agregar la fila
-                tbody.appendChild(fila);
+      
+      function abrirModalEditar(alumno) {
+        const modal = document.getElementById('modalEditar');
+        document.getElementById('e_codigo').value  = alumno.codigo;
+        document.getElementById('e_nombre').value  = alumno.nombre ?? '';
+        document.getElementById('e_horario').value = alumno.horario ?? '';
+        document.getElementById('e_nomina').value  = alumno.nomina ?? '';
+        document.getElementById('e_codpro').value  = alumno.codpro ?? '';
+        modal.style.display = 'flex';
+      }
 
-                // añadir listener SOLO al botón eliminar de esta fila
-                const btnEliminar = fila.querySelector(".btn-eliminar");
-                btnEliminar.addEventListener("click", async () => {
-                  const idAlumno = btnEliminar.getAttribute("data-id");
-                  if (confirm("¿Seguro que quieres eliminar a este alumno?")) {
-                    try {
-                      const response = await fetch(`${API_URL}/eliminar_alumno/${idAlumno}`, {
-                        method: "DELETE"
-                      });
-                      const data = await response.json();
+      function cerrarModalEditar() {
+        document.getElementById('modalEditar').style.display = 'none';
+      }
 
-                      if (response.ok) {
-                        alert("Alumno eliminado correctamente");
-                        fila.remove(); // eliminamos solo la fila actual
-                      } else {
-                        alert(`Error: ${data.mensaje || response.statusText}`);
-                      }
-                    } catch (error) {
-                      console.error("Error al eliminar:", error);
-                    }
-                  }
-                });
-              });
-            } catch (error) {
-              console.error("Error al cargar alumnos:", error);
-            }
+      
+      async function abrirModalCalificaciones(alumno) {
+        const modal = document.getElementById('modalCalif');
+        document.getElementById('c_nombre').textContent = alumno.nombre;
+        document.getElementById('c_id').textContent = alumno.codigo;
+        document.getElementById('promedioSpan').textContent = '—';
+
+        try {
+          const [modsResp, califResp] = await Promise.all([
+            fetch(`${API_URL}/modulosobtener`),
+            fetch(`${API_URL}/alumnos/${alumno.codigo}/calificaciones`)
+          ]);
+
+          if (!modsResp.ok) throw new Error('Error módulos');
+          if (!califResp.ok) throw new Error('Error calificaciones');
+
+          const modsData = await modsResp.json();
+          const califData = await califResp.json();
+
+          const modulos = (modsData.modulos || []).map(m => m.nivel);
+          const existentes = {};
+          (califData.calificaciones || []).forEach(c => {
+            existentes[c.modulo_nivel] = { 
+              calificacion: c.calificacion, 
+              observaciones: c.observaciones || '' 
+            };
+          });
+
+          if (typeof califData.promedio === 'number') {
+            document.getElementById('promedioSpan').textContent = califData.promedio.toFixed(2);
           }
 
-          window.onload = cargarAlumnos;
-    </script>
+          const tbody = document.querySelector('#tablaCalif tbody');
+          tbody.innerHTML = '';
+          modulos.forEach(nivel => {
+            const tr = document.createElement('tr');
+            const califVal = existentes[nivel]?.calificacion ?? '';
+            const obsVal = existentes[nivel]?.observaciones ?? '';
+
+            tr.innerHTML = `
+              <td style="border-bottom:1px solid #f0f0f0;">${nivel}</td>
+              <td style="border-bottom:1px solid #f0f0f0;">
+                <input type="number" class="inp-calif" data-mod="${nivel}" 
+                      min="0" max="100" step="0.01" value="${califVal}" 
+                      style="width:120px; padding:6px; border:1px solid #ccc; border-radius:6px;">
+              </td>
+              <td style="border-bottom:1px solid #f0f0f0;">
+                <input type="text" class="inp-obs" data-mod="${nivel}" value="${obsVal}"
+                      style="width:100%; padding:6px; border:1px solid #ccc; border-radius:6px;">
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+
+          tbody.querySelectorAll('.inp-calif').forEach(inp => {
+            inp.addEventListener('input', recalcularPromedioModal);
+          });
+
+          document.getElementById('btnCancelarCalif').onclick = () => { 
+            modal.style.display = 'none'; 
+          };
+          document.getElementById('btnGuardarCalif').onclick = () => {
+            guardarCalificaciones(alumno.codigo);
+          };
+
+          modal.style.display = 'flex';
+        } catch (err) {
+          console.error('Error cargando calificaciones:', err);
+          alert('No se pudieron cargar módulos/calificaciones');
+        }
+      }
+
+      function recalcularPromedioModal() {
+        const inps = Array.from(document.querySelectorAll('#tablaCalif .inp-calif'));
+        const valores = inps
+          .map(i => i.value.trim())
+          .filter(v => v !== '' && !isNaN(Number(v)))
+          .map(Number)
+          .filter(v => v >= 0 && v <= 100);
+
+        const prom = valores.length ? (valores.reduce((a,b)=>a+b,0) / valores.length) : null;
+        document.getElementById('promedioSpan').textContent = (prom !== null) ? prom.toFixed(2) : '—';
+      }
+
+      async function guardarCalificaciones(alumnoId) {
+        const rows = Array.from(document.querySelectorAll('#tablaCalif tbody tr'));
+        const payload = rows.map(tr => {
+          const nivel = tr.querySelector('.inp-calif').getAttribute('data-mod');
+          const val   = tr.querySelector('.inp-calif').value.trim();
+          const obs   = tr.querySelector('.inp-obs').value.trim();
+          return {
+            modulo_nivel: nivel,
+            calificacion: val === '' ? null : Number(val),
+            observaciones: obs === '' ? null : obs
+          };
+        });
+
+        try {
+          const resp = await fetch(`${API_URL}/alumnos/${alumnoId}/calificaciones`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const data = await resp.json();
+          if (!resp.ok || !data.ok) {
+            alert('No se pudieron guardar las calificaciones.');
+            return;
+          }
+          alert('Calificaciones guardadas.');
+          recalcularPromedioModal();
+        } catch (e) {
+          console.error(e);
+          alert('Error de red al guardar calificaciones.');
+        }
+      }
+
+      
+      function bindAccionesFila(fila, alumno) {
+        
+        const btnEliminar = fila.querySelector('.btn-eliminar');
+        if (btnEliminar) {
+          btnEliminar.addEventListener('click', async () => {
+            const idAlumno = btnEliminar.getAttribute('data-id');
+            if (confirm('¿Seguro que quieres eliminar a este alumno?')) {
+              try {
+                const response = await fetch(`${API_URL}/eliminar_alumno/${idAlumno}`, { 
+                  method: 'DELETE' 
+                });
+                if (response.ok) {
+                  alert('Alumno eliminado correctamente');
+                  fila.remove();
+                } else {
+                  const data = await response.json();
+                  alert(`Error: ${data.mensaje || response.statusText}`);
+                }
+              } catch (error) {
+                console.error('Error al eliminar:', error);
+                alert('Error al eliminar alumno');
+              }
+            }
+          });
+        }
+
+        
+        const btnEditar = fila.querySelector('.btn-editar');
+        if (btnEditar) {
+          btnEditar.addEventListener('click', () => abrirModalEditar(alumno));
+        }
+
+        
+        const btnCalif = fila.querySelector('.btn-calif');
+        if (btnCalif) {
+          btnCalif.addEventListener('click', () => abrirModalCalificaciones(alumno));
+        }
+
+       
+        const btnPagar = fila.querySelector('.btn-pago');
+        if (btnPagar) {
+          btnPagar.addEventListener('click', async () => {
+            const idAlumno = btnPagar.getAttribute('data-id');
+            if (confirm('¿Registrar pago de mensualidad para este alumno?')) {
+              try {
+                const response = await fetch(`${API_URL}/registrar_pago/${idAlumno}`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' }
+                });
+                
+                if (response.ok) {
+                  const data = await response.json();
+                  alert('Pago registrado correctamente');
+                  await cargarAlumnos(); 
+                } else {
+                  const data = await response.json();
+                  alert(`Error: ${data.mensaje || response.statusText}`);
+                }
+              } catch (error) {
+                console.error('Error al registrar pago:', error);
+                alert('Error al registrar el pago');
+              }
+            }
+          });
+        }
+      }
+
+      
+      async function cargarAlumnos() {
+        try {
+          const response = await fetch(`${API_URL}/alumnosobtener`);
+          const data = await response.json();
+
+          const tbody = document.querySelector("#tablaAlumnos tbody");
+          tbody.innerHTML = "";
+          
+          data.alumnos.forEach(alumno => {
+            const fila = document.createElement("tr");
+            fila.innerHTML = `
+              <td>${alumno.codigo}</td>
+              <td>${alumno.nombre}</td>
+              <td>${alumno.nomina ?? ''}</td>
+              <td>${alumno.codpro}</td>
+              <td>${alumno.horario}</td>
+              <td>${alumno.estado}</td>
+              <td>
+                <button class="_custom-main-card-button btn-editar" 
+                        style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; margin-right: 5px;">
+                  <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="Editar" style="width:14px; height:14px; margin-right:3px;">
+                  Editar
+                </button>
+                <button class="_custom-main-card-button btn-calif"
+                        style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; margin-right: 5px;">
+                  📊 Calificaciones
+                </button>
+                <button class="_custom-main-card-button btn-eliminar" data-id="${alumno.codigo}"
+                        style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; background-color: #e74c3c; color: white; margin-right: 5px;">
+                  <img src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="Eliminar" style="width:14px; height:14px; margin-right:3px;">
+                  Eliminar
+                </button>
+                <button class="_custom-main-card-button btn-pago" data-id="${alumno.codigo}"
+                        style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; background-color: #ffd700; color: black; position: relative;">
+                  <span class="icono-alerta" style="position: absolute; top: -8px; right: -8px; background-color: #e74c3c; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px;">!</span>
+                  Registrar Pago
+                </button>
+              </td>
+            `;
+            
+            tbody.appendChild(fila);
+            bindAccionesFila(fila, alumno); 
+          });
+        } catch (error) {
+          console.error("Error al cargar alumnos:", error);
+          alert("Error al cargar alumnos");
+        }
+      }
+
+      
+      async function buscarAlumnos() {
+        try {
+          const nombre = document.querySelector('#alumno').value.trim();
+          
+         console.log("Valor capturado del input:", `"${nombre}"`);
+          
+          if (!nombre) {
+            await cargarAlumnos();
+            return;
+          }
+
+          const url = `${API_URL}/buscaralumno/${nombre}`;
+          console.log("URL de búsqueda:", url);
+          const response = await fetch(url);
+          
+          if (!response.ok) {
+            console.error(`Error ${response.status}: ${response.statusText}`);
+            alert(`No se pudo realizar la búsqueda. Error ${response.status}`);
+            return;
+          }
+          
+          const data = await response.json();
+
+          const tbody = document.querySelector("#tablaAlumnos tbody");
+          tbody.innerHTML = "";
+          
+          if (!data.alumnos || data.alumnos.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">No se encontraron alumnos con ese nombre</td></tr>';
+            return;
+          }
+          
+          (data.alumnos || []).forEach(alumno => {
+            const fila = document.createElement("tr");
+            fila.innerHTML = `
+              <td>${alumno.codigo}</td>
+              <td>${alumno.nombre}</td>
+              <td>${alumno.nomina ?? ''}</td>
+              <td>${alumno.codpro}</td>
+              <td>${alumno.horario}</td>
+              <td>${alumno.estado}</td>
+              <td>
+                <button class="_custom-main-card-button btn-editar"
+                        style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; margin-right: 5px;">
+                  <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="Editar" style="width:14px; height:14px; margin-right:3px;">
+                  Editar
+                </button>
+                <button class="_custom-main-card-button btn-calif"
+                        style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; margin-right: 5px;">
+                  📊 Calificaciones
+                </button>
+                <button class="_custom-main-card-button btn-eliminar" data-id="${alumno.codigo}"
+                        style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; background-color: #e74c3c; color: white; margin-right: 5px;">
+                  <img src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="Eliminar" style="width:14px; height:14px; margin-right:3px;">
+                  Eliminar
+                </button>
+                <button class="_custom-main-card-button btn-pago" data-id="${alumno.codigo}"
+                        style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; background-color: #ffd700; color: black; position: relative;">
+                  <span class="icono-alerta" style="position: absolute; top: -8px; right: -8px; background-color: #e74c3c; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px;">!</span>
+                  Registrar Pago
+                </button>
+              </td>
+            `;
+            tbody.appendChild(fila);
+            bindAccionesFila(fila, alumno);
+          });
+        } catch (error) {
+          console.error("Error al buscar alumnos:", error);
+          alert("Error al buscar alumnos");
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        cargarAlumnos();
+
+        document.getElementById('buscar').addEventListener('click', buscarAlumnos);
+
+        document.getElementById('btnCancelarEdit').addEventListener('click', cerrarModalEditar);
+
+        document.getElementById('formEditar').addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const codigo  = document.getElementById('e_codigo').value;
+          const nombre  = document.getElementById('e_nombre').value.trim();
+          const horario = document.getElementById('e_horario').value.trim();
+          const nomina  = document.getElementById('e_nomina').value.trim();
+          const codpro  = document.getElementById('e_codpro').value.trim();
+
+          const fd = new FormData();
+          fd.append('nombre', nombre);
+          fd.append('horario', horario);
+          fd.append('nomina', nomina);
+          fd.append('codpro', codpro);
+
+          try {
+            const resp = await fetch(`${API_URL}/editar_alumno/${codigo}`, {
+              method: 'POST',
+              body: fd
+            });
+            const data = await resp.json();
+            if (!resp.ok) {
+              alert(data.detail || data.mensaje || 'Error al actualizar');
+              return;
+            }
+            alert('Alumno actualizado');
+            cerrarModalEditar();
+            await cargarAlumnos();
+          } catch (err) {
+            console.error(err);
+            alert('Error de red al actualizar');
+          }
+        });
+      });
+      </script>
     
   </body>
 </html>

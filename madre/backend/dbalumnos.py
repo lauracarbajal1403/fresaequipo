@@ -95,7 +95,7 @@ class dbalumnos:
             self.conn = self.con.open()
             self.cursor = self.conn.cursor()
 
-            sql = "DELETE FROM alumnos WHERE codigo=%s"
+            sql = "DELETE FROM alumnos WHERE id=%s"
             self.cursor.execute(sql, (codigo,))
             self.conn.commit()
 
@@ -141,30 +141,42 @@ class dbalumnos:
     # RETORNA: objeto alumno o None si no se encuentra.
     # ---------------------------------------------------
 
-    def buscar_alumno(self, alumno):
+    def buscar_alumno(self, nombre_buscar):
+        """
+        Busca alumnos por nombre (búsqueda parcial con LIKE)
+        """
         try:
             self.con = con.conexion()
             self.conn = self.con.open()
-            self.cursor1=self.conn.cursor()
-            auxi=None
-            self.sql = "SELECT * FROM alumnos WHERE nombre = %s"
-            self.cursor1.execute(self.sql, (alumno.nombre,))
-            row = self.cursor1.fetchone()
-            self.conn.commit()
+            self.cursor1 = self.conn.cursor()
+            
+            # Usar LIKE para búsqueda parcial (encuentra "Laura" si buscas "la")
+            self.sql = "SELECT * FROM alumnos WHERE nombre LIKE %s"
+            self.cursor1.execute(self.sql, (f"%{nombre_buscar}%",))
+            rows = self.cursor1.fetchall()
+            
             self.conn.close()
-            print("wow")
-            if row[1] is not None:
-                print("ok")
-                alumno.setid(row[0])
-                alumno.setnombre(row[1])
-                alumno.setnomina(row[2])
-                alumno.setcodpro(row[3])
-                alumno.sethorario(row[4])
-                alumno.setestado(row[5])
+            
+            # Convertir las filas a lista de diccionarios
+            alumnos = []
+            for row in rows:
+                alumno = {
+                    "codigo": row[0],
+                    "nombre": row[1],
+                    "nomina": row[2],
+                    "codpro": row[3],
+                    "horario": row[4],
+                    "estado": row[5]
+                }
+                alumnos.append(alumno)
+            
+            return alumnos
+            
         except Exception as e:
             print(f"Error al buscar alumno: {e}")
-            return None
-        return alumno
+            if self.conn:
+                self.conn.close()
+            return []
     # ---------------------------------------------------
     # MÉTODO: buscar_alumno
     # DESCRIPCIÓN: Busca un alumno por su estado.

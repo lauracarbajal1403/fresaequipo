@@ -74,8 +74,51 @@
             </tbody>
           </table>
         </div>
+        <!-- ===================== -->
+        <!--  MODAL: EDITAR Modulo -->
+        <!-- ===================== -->
+        <div id="modalEditar" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.4); align-items:center; justify-content:center; z-index:9999;">
+          <div style="background:#fff; padding:20px; border-radius:10px; width:100%; max-width:520px;">
+            <h3 style="margin-top:0;">Editar alumno</h3>
+            <form id="formEditar">
+              <input type="hidden" id="e_codigo">
+
+              <div style="margin-bottom:10px;">
+                <label>Nivel</label>
+                <input id="nivel" type="text" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px;">
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label>Cantidad de libros</label>
+                <input id="libros" type="text" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px;">
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label>Detalles</label>
+                <input id="detalles" type="number" step="1" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px;">
+              </div>
+
+              
         <script>
           const API_URL = "https://fresaequipo-1.onrender.com"; 
+          function abrirModalEditar(alumno) {
+            const modal = document.getElementById('modalEditar');
+            document.getElementById('e_codigo').value  = alumno.codigo;
+            document.getElementById('e_nombre').value  = alumno.nombre ?? '';
+            document.getElementById('e_horario').value = alumno.horario ?? '';
+            document.getElementById('e_nomina').value  = alumno.nomina ?? '';
+            document.getElementById('e_codpro').value  = alumno.codpro ?? '';
+            modal.style.display = 'flex';
+          }
+
+          function cerrarModalEditar() {
+                  document.getElementById('modalEditar').style.display = 'none';
+                }
+          const btnEditar = fila.querySelector('.btn-editar');
+            if (btnEditar) {
+              btnEditar.addEventListener('click', () => abrirModalEditar(alumno));
+            }
+
           async function cargarModulos() {
             try {
               const response = await fetch(`${API_URL}/modulosobtener`);
@@ -88,7 +131,7 @@
                 const fila = document.createElement("tr");
                 fila.innerHTML = `
                   <td>${modulo.nivel}</td>
-                  <td>${modulo.cantidad_libros}</td>
+                  <td>${modulo.libros}</td>
                   <td>${modulo.detalles}</td>
                 `;
                 fila.innerHTML += `
@@ -97,7 +140,7 @@
                       <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="Editar" style="width:14px; height:14px; margin-right:3px;">
                       Editar
                     </button>
-                    <button class="_custom-main-card-button btn-eliminar" data-id="${modulo.id}"
+                    <button class="_custom-main-card-button btn-eliminar" data-id="${modulo.nivel}"
                             style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; background-color: #e74c3c; color: white;">
                       <img src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="Eliminar" style="width:14px; height:14px; margin-right:3px;">
                       Eliminar
@@ -121,7 +164,7 @@
 
                       if (response.ok) {
                         alert("Profesor eliminado correctamente");
-                        fila.remove(); // eliminamos solo la fila actual
+                        fila.remove(); 
                       } else {
                         alert(`Error: ${data.mensaje || response.statusText}`);
                       }
@@ -136,8 +179,8 @@
             }
           }
 
-          // ejecutar al cargar la página
-          window.onload = cargarProfesores;
+          
+          window.onload = cargarModulos;
           </script>
 
           

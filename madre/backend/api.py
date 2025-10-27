@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Form, Request, Path
+from fastapi import FastAPI, Form, HTTPException, Request, Path
 from pydantic import BaseModel
 from dbgrupos import dbgrupos
 from dbalumnos import dbalumnos
@@ -9,7 +9,10 @@ from fastapi.staticfiles import StaticFiles
 from conexion import conexion
 from dbmodulos import dbmodulos
 import os
-
+from dbcalificaciones import dbcalificaciones
+from typing import List, Optional
+from fastapi import Body, Query
+db_calif = dbcalificaciones()
 # ==============================
 # INSTANCIAR LA APLICACIÓN FASTAPI
 # ==============================
@@ -198,6 +201,10 @@ class Modulo(BaseModel):
     nivel: str
     detalles: str
     libros: int
+class CalificacionIn(BaseModel):
+    modulo_nivel: str
+    calificacion: Optional[float] = None
+    observaciones: Optional[str] = None
 # ==============================
 # ENDPOINTS: GRUPOS
 # ==============================
@@ -250,15 +257,30 @@ def get_alumnos():
                 conn.close()
             except Exception:
                 pass
+@app.get("/alumnos/{alumno_id}/calificaciones")
+def get_calificaciones(alumno_id: int):
+    rows = db_calif.obtener_por_alumno(alumno_id)
+    promedio = db_calif.promedio_alumno(alumno_id)
+    return {"calificaciones": rows, "promedio": promedio}
 
-@app.get("/buscaralumno")
-def get_alumno(nombre: str = Path(...)):
-    """
-    Obtiene un alumno por su nombre.
-    - Retorna objeto con datos del alumno.
-    """
-    alumno = db_alumnos.buscar_alumno(nombre)
-    return alumno
+@app.post("/alumnos/{alumno_id}/calificaciones")
+def upsert_calificaciones(alumno_id: int, payload: List[CalificacionIn]):
+    ok = db_calif.upsert_lista(alumno_id, [p.model_dump() for p in payload])
+    return {"ok": ok}
+@app.get("/buscaralumno/{nombre}")
+def get_alumno(nombre: str = None):
+    try:
+        print(f"Parametro recibido: {nombre}")
+
+        if not nombre:
+            return {"alumnos": []}
+
+        alumnos = db_alumnos.buscar_alumno(nombre)
+        return {"alumnos": alumnos or []}
+
+    except Exception as e:
+        print(f"Error en endpoint buscar: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/buscarestado")
 def estado_alumno(estado: str = Path(...)):
@@ -460,11 +482,12 @@ def obtener_gruposver():
 # ==============================
 # ENDPOINTS: Modulos
 # ==============================
-@app.post("/nuevo_modulo")
-def agregar_modulo(
+@app.api_route("/nuevo_modulo", methods=["POST", "GET"])
+def nuevo_modulo(
     nivel: str = Form(...),
-    detalles: str = Form(...),
     libros: int = Form(...),
+    detalles: str = Form(...),
+    
 ):
     """
     Crea un nuevo módulo (campos: nivel, detalles, libros).
@@ -473,8 +496,8 @@ def agregar_modulo(
     """
     modulo = Modulo(
         nivel=nivel,
-        detalles=detalles,
         libros=libros,
+        detalles=detalles, 
     )
     db_modulos.nuevo_modulo(modulo)
     return {"mensaje": "Módulo agregado correctamente"}
