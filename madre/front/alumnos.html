@@ -380,6 +380,10 @@
         }
         async function registrarPago(idAlumno) {
        
+        
+          
+
+          if (response.ok) {
             alert('Pago registrado correctamente');
             
             // Ocultar el icono de alerta del botón específico
@@ -390,7 +394,12 @@
                 iconoAlerta.style.display = 'none';
               }
             }
-          
+          } else {
+            const data = await response.json();
+            alert(`Error: ${data.mensaje || response.statusText}`);
+          }
+       
+        }
       }
       
 
