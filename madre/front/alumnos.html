@@ -378,6 +378,7 @@
       async function cargarAlumnos() {
         try {
           const response = await fetch(`${API_URL}/alumnosobtener`);
+         
           const data = await response.json();
 
           const tbody = document.querySelector("#tablaAlumnos tbody");
@@ -424,6 +425,83 @@
         }
       }
 
+      async function buscarEstado() {
+          try {
+            const estado = document.querySelector('#c_estado').value.trim();
+            if (!estado) {
+              alert("Por favor selecciona un estado para buscar.");
+              return;
+            }
+
+            const url = `${API_URL}/buscarestado?estado=${encodeURIComponent(estado)}`;
+            const response = await fetch(url);
+
+            if (!response.ok) {
+              console.error(`Error ${response.status}: ${response.statusText}`);
+              alert(`No se pudo realizar la búsqueda. Error ${response.status}`);
+              return;
+            }
+
+            const data = await response.json();
+
+            // Procesar y mostrar los resultados
+            const tbody = document.querySelector("#tablaAlumnos tbody");
+            tbody.innerHTML = "";
+
+            const alumnos = data.alumnos || [];
+
+            if (alumnos.length === 0) {
+              tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;">No se encontraron alumnos en este estado.</td></tr>`;
+              return;
+            }
+
+            alumnos.forEach(alumno => {
+              const fila = document.createElement("tr");
+              fila.innerHTML = `
+                <td>${alumno.codigo}</td>
+                <td>${alumno.nombre}</td>
+                <td>${alumno.nomina ?? ''}</td>
+                <td>${alumno.codpro}</td>
+                <td>${alumno.horario}</td>
+                <td>${alumno.estado}</td>
+                <td>
+                  <button class="_custom-main-card-button btn-editar"
+                          style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; margin-right: 5px;">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="Editar" style="width:14px; height:14px; margin-right:3px;">
+                    Editar
+                  </button>
+                  <button class="_custom-main-card-button btn-calif"
+                          style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; margin-right: 5px;">
+                    📊 Calificaciones
+                  </button>
+                  <button class="_custom-main-card-button btn-eliminar" data-id="${alumno.codigo}"
+                          style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; background-color: #e74c3c; color: white; margin-right: 5px;">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="Eliminar" style="width:14px; height:14px; margin-right:3px;">
+                    Eliminar
+                  </button>
+                  <button class="_custom-main-card-button btn-pago" data-id="${alumno.codigo}"
+                          style="padding: 4px 8px; font-size: 12px; border-radius: 5px; display: inline-flex; align-items: center; background-color: #ffd700; color: black; position: relative;">
+                    <span class="icono-alerta" style="position: absolute; top: -8px; right: -8px; background-color: #e74c3c; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px;">!</span>
+                    Registrar Pago
+                  </button>
+                </td>
+              `;
+              tbody.appendChild(fila);
+
+              // Asegúrate de que esta función exista
+              if (typeof bindAccionesFila === "function") {
+                bindAccionesFila(fila, alumno);
+              }
+            });
+
+          } catch (error) {
+            console.error("Error al buscar alumnos:", error);
+            alert("Error al buscar alumnos");
+          }
+        }
+
+      
+      
       
       async function buscarAlumnos() {
         try {
@@ -500,6 +578,8 @@
         cargarAlumnos();
 
         document.getElementById('buscar').addEventListener('click', buscarAlumnos);
+
+        document.getElementById('estado').addEventListener('click', buscarEstado);
 
         document.getElementById('btnCancelarEdit').addEventListener('click', cerrarModalEditar);
 

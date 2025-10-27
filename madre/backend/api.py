@@ -289,6 +289,13 @@ def estado_alumno(estado: str = Path(...)):
     """
     alumno = db_alumnos.buscar_estado(estado)
     return alumno
+@app.get("/buscarinactivo")
+def inactivo_alumno(estado: str = Path(...)):
+    """
+    Verifica si un alumno existe por su estado.
+    """
+    alumno = db_alumnos.buscar_inactivo(estado)
+    return alumno
 @app.api_route("/nuevo_alumno", methods=["POST", "GET"])
 def agregar_alumno(
     nombre: str = Form(...),

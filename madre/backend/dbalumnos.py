@@ -182,6 +182,23 @@ class dbalumnos:
     # DESCRIPCIÓN: Busca un alumno por su estado.
     # RETORNA: objeto alumno o None si no se encuentra.
     # ---------------------------------------------------
+    def buscar_inactivo(self, alumno):
+        try:
+            self.con = con.conexion()
+            self.conn = self.con.open()
+            self.cursor1=self.conn.cursor()
+            auxi=None
+            self.sql = "SELECT * FROM alumnos WHERE estado = 'inactivo'"
+            self.cursor1.execute(self.sql, (alumno.estado,))
+            row = self.cursor1.fetchone()
+            
+            self.conn.commit()
+            return row
+        except Exception as e:
+            print(f"Error al buscar alumno: {e}")
+            if self.conn:
+                self.conn.close()
+            return None
     def buscar_estado(self, alumno):
         try:
             self.con = con.conexion()
