@@ -125,8 +125,7 @@
             <input id="e_codpro" type="number" step="1" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px;">
           </div>
 
-          <!-- Si también quieres editar estado, descomenta: -->
-          <!--
+          
           <div style="margin-bottom:10px;">
             <label>Estado</label>
             <select id="e_estado" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px;">
@@ -135,7 +134,7 @@
               <option value="Inactivo">Inactivo</option>
             </select>
           </div>
-          -->
+        
 
           <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:10px;">
             <button type="button" id="btnCancelarEdit" class="_custom-main-card-button" style="background:#eee;">Cancelar</button>
@@ -346,7 +345,7 @@
           btnCalif.addEventListener('click', () => abrirModalCalificaciones(alumno));
         }
 
-       
+      
         const btnPagar = fila.querySelector('.btn-pago');
         if (btnPagar) {
           btnPagar.addEventListener('click', async () => {
