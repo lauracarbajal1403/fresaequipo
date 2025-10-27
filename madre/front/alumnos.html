@@ -427,7 +427,7 @@
 
       async function buscarEstado() {
           try {
-            const estado = document.querySelector('#c_estado').value.trim();
+            const estado = document.querySelector('#estado').value.trim();
             if (!estado) {
               alert("Por favor selecciona un estado para buscar.");
               return;
@@ -579,7 +579,7 @@
 
         document.getElementById('buscar').addEventListener('click', buscarAlumnos);
 
-        document.getElementById('estado').addEventListener('click', buscarEstado);
+        document.getElementById('estado').addEventListener('change', buscarEstado);
 
         document.getElementById('btnCancelarEdit').addEventListener('click', cerrarModalEditar);
 
