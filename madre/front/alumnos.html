@@ -78,9 +78,9 @@
                     <tr>
                       <th>ID</th>
                       <th>Nombre</th>
+                      <th>Mensualidad</th>
                       <th>Profesor</th>
                       <th>Horario</th>
-                      <th>Mensualidad</th>
                       <th>Estado</th>
                       <th>Acciones</th>
                     </tr>
@@ -194,16 +194,7 @@
     <script>
       const API_URL = "https://fresaequipo-1.onrender.com";
 
-      function abrirModalPago(alumno) {
-        const modal = document.getElementById('modalEditar');
-        document.getElementById('e_codigo').value  = alumno.codigo;
-        document.getElementById('e_nombre').value  = alumno.nombre ?? '';
-        modal.style.display = 'flex';
-      }
-
-      function cerrarModalPago() {
-        document.getElementById('modalEditar').style.display = 'none';
-      }
+      
       function abrirModalEditar(alumno) {
         const modal = document.getElementById('modalEditar');
         document.getElementById('e_codigo').value  = alumno.codigo;
@@ -373,8 +364,17 @@
           btnCalif.addEventListener('click', () => abrirModalCalificaciones(alumno));
         }
 
-      
-        const btnPagar = fila.querySelector('.btn-pago');
+        function abrirModalPago(alumno) {
+          const modal = document.getElementById('pago');
+          document.getElementById('e_codigo').value  = alumno.codigo;
+          document.getElementById('e_nombre').value  = alumno.nombre ?? '';
+          modal.style.display = 'flex';
+        }
+
+        function cerrarModalPago() {
+          document.getElementById('pago').style.display = 'none';
+        }
+        const btnPagar = fila.querySelector('pago');
         if (btnPagar) {
           btnPagar.addEventListener('click', async () => {
             const idAlumno = btnPagar.getAttribute('data-id');

@@ -318,18 +318,19 @@ def agregar_alumno(
     )
     db_alumnos.nuevo_alumno(alumno)
     return {"mensaje": "Alumno agregado correctamente"}
-
+"""
 @app.api_route("/registrar_pago/{codigo}", methods=["POST", "GET"])
 def registrar_pago(
     codigo: int = Path(...),
 ):
-    """
+
     Registra el pago de un alumno cambiando su estado a 'activo'.
     - Recibe: codigo del alumno por path.
     - Actualiza vía db_alumnos.registrar_pago.
-    """
+    
     db_alumnos.registrar_pago(codigo)
     return {"mensaje": "Pago registrado, estado actualizado a 'activo'"}
+"""
 @app.post("/editar_alumno/{codigo}")
 def editar_alumno(
     codigo: int,
