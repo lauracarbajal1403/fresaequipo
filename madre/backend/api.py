@@ -283,7 +283,7 @@ def get_alumno(nombre: str = None):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/buscarestado")
-def estado_alumno(estado: str = Path(...)):
+def estado_alumno(estado: str = Query(...)):
     """
     Verifica si un alumno existe por su estado.
     """
