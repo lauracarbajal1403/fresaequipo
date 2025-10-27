@@ -182,44 +182,44 @@ class dbalumnos:
 # ========================================
 # MÉTODO EN LA CLASE DE BASE DE DATOS
 # ========================================
-def buscar_estado(self, estado):
-    """
-    Busca todos los alumnos con un estado específico.
-    
-    Args:
-        estado (str): Estado a buscar ('Activo' o 'Inactivo')
-    
-    Returns:
-        list: Lista de diccionarios con los datos de los alumnos
-    """
-    try:
-        self.con = con.conexion()
-        self.conn = self.con.open()
-        self.cursor1 = self.conn.cursor()
+    def buscar_estado(self, estado):
+        """
+        Busca todos los alumnos con un estado específico.
         
-        self.sql = "SELECT * FROM alumnos WHERE estado = %s"
-       
-        self.cursor1.execute(self.sql, (estado,))
+        Args:
+            estado (str): Estado a buscar ('Activo' o 'Inactivo')
         
-        rows = self.cursor1.fetchall()
+        Returns:
+            list: Lista de diccionarios con los datos de los alumnos
+        """
+        try:
+            self.con = con.conexion()
+            self.conn = self.con.open()
+            self.cursor1 = self.conn.cursor()
+            
+            self.sql = "SELECT * FROM alumnos WHERE estado = %s"
         
-       
-        column_names = [desc[0] for desc in self.cursor1.description]
+            self.cursor1.execute(self.sql, (estado,))
+            
+            rows = self.cursor1.fetchall()
+            
         
-        
-        alumnos = []
-        for row in rows:
-            alumno_dict = dict(zip(column_names, row))
-            alumnos.append(alumno_dict)
-        
-        self.conn.close()
-        return alumnos
-        
-    except Exception as e:
-        print(f"Error al buscar alumno por estado: {e}")
-        if self.conn:
+            column_names = [desc[0] for desc in self.cursor1.description]
+            
+            
+            alumnos = []
+            for row in rows:
+                alumno_dict = dict(zip(column_names, row))
+                alumnos.append(alumno_dict)
+            
             self.conn.close()
-        return None
+            return alumnos
+            
+        except Exception as e:
+            print(f"Error al buscar alumno por estado: {e}")
+            if self.conn:
+                self.conn.close()
+            return None
 
 
     def mensualidades(self, alumno):
