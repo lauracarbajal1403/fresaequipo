@@ -154,6 +154,8 @@
         
         if (response.ok) {
             if (data.mensaje === "Alumno agregado correctamente") {
+              alert('Alumno agregado correctamente');
+            
                 setTimeout(function() {
                   document.getElementById('mensajeExito').style.display = 'none';
                 }, 4000);
